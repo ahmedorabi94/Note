@@ -7,16 +7,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentListItemBinding
 import com.example.telekotlin.di.Injectable
+import com.example.telekotlin.repository.data.Note
 import com.example.telekotlin.viewModels.ListItemViewModel
 import javax.inject.Inject
 
 
-class ListItemFragment : Fragment(), Injectable {
+class ListItemFragment : Fragment(), Injectable, NoteCallback {
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -45,7 +48,7 @@ class ListItemFragment : Fragment(), Injectable {
 
         setHasOptionsMenu(true)
 
-        noteAdapter = NoteAdapter()
+        noteAdapter = NoteAdapter(this)
         recyclerView.adapter = noteAdapter
 
 
@@ -118,6 +121,19 @@ class ListItemFragment : Fragment(), Injectable {
 
 
         return super.onOptionsItemSelected(item)
+
+    }
+
+
+    override fun onNoteClick(note: Note) {
+        Log.e("ListFragment", "${note.title} ${note.id}")
+
+        val arg = Bundle()
+        arg.putInt("row_id", note.id)
+
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_listItemFragment_to_noteDetailsFragment, arg)
+
 
     }
 

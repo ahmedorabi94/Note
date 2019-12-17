@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.telekotlin.databinding.ListItemBinding
 import com.example.telekotlin.repository.data.Note
 
-class NoteAdapter : ListAdapter<Note, NoteAdapter.MyViewHolder>(DiffCallback) {
+class NoteAdapter(private val callback: NoteCallback) : ListAdapter<Note, NoteAdapter.MyViewHolder>(DiffCallback) {
 
 
     companion object DiffCallback : DiffUtil.ItemCallback<Note>() {
@@ -24,6 +24,8 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.MyViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context))
+
+        binding.callback = callback
         return MyViewHolder(binding)
     }
 

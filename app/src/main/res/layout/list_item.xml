@@ -8,6 +8,10 @@
             name="note"
             type="com.example.telekotlin.repository.data.Note" />
 
+        <variable
+            name="callback"
+            type="com.example.telekotlin.ui.NoteCallback" />
+
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,6 +23,7 @@
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="6dp"
+        android:onClick="@{() -> callback.onNoteClick(note)}"
         android:descendantFocusability="blocksDescendants"
         android:foreground="@drawable/ripple"
         app:cardBackgroundColor="@color/colorPrimaryDark"

@@ -3,6 +3,7 @@ package com.example.telekotlin.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.example.telekotlin.R
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -19,9 +20,11 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, ListItemFragment())
-            .commitAllowingStateLoss()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        Navigation.findNavController(findViewById(R.id.nav_host_fragment)).navigateUp()
+        return super.onSupportNavigateUp()
 
     }
 
