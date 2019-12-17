@@ -4,17 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.telekotlin.repository.data.Tele
+import com.example.telekotlin.repository.data.Note
 
 @Dao
 interface TeleDao {
 
 
     @Insert
-    suspend fun insert(tele: Tele)
+    suspend fun insert(note: Note)
 
     @Query("select * from tele")
-    fun getAllTele(): LiveData<List<Tele>>
+    fun getAllTele(): LiveData<List<Note>>
 
     @Query("delete from tele")
     suspend fun deleteAllTele()
@@ -27,7 +27,7 @@ interface TeleDao {
     fun updateTele(id: Int, title: String, body: String)
 
     @Query("select * from tele where id =:id")
-    fun getTele(id: Int): LiveData<Tele>
+    fun getTele(id: Int): LiveData<Note>
 
 
 }

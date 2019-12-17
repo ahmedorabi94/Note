@@ -3,7 +3,7 @@ package com.example.telekotlin.repository
 import android.app.Application
 import androidx.lifecycle.LiveData
 import com.example.telekotlin.R
-import com.example.telekotlin.repository.data.Tele
+import com.example.telekotlin.repository.data.Note
 import com.example.telekotlin.repository.roomDb.TeleDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -16,11 +16,11 @@ class MainRepository @Inject constructor(
 ) {
 
 
-    private lateinit var allTeleLiveData: LiveData<List<Tele>>
+    private lateinit var allNoteLiveData: LiveData<List<Note>>
 
-//    private val _allTele = MutableLiveData<List<Tele>>()
+//    private val _allTele = MutableLiveData<List<Note>>()
 //
-//    private val allTele: LiveData<List<Tele>>
+//    private val allTele: LiveData<List<Note>>
 //        get() = _allTele
 
 
@@ -29,7 +29,7 @@ class MainRepository @Inject constructor(
     }
 
     private fun getAllTeles() {
-        allTeleLiveData = teleDao.getAllTele()
+        allNoteLiveData = teleDao.getAllTele()
     }
 
 
@@ -49,7 +49,7 @@ class MainRepository @Inject constructor(
 
     fun insertDummyData() {
 
-        val tele = Tele(
+        val tele = Note(
             application.getString(R.string.lores_ipsum),
             application.getString(R.string.some_text)
         )
@@ -61,8 +61,8 @@ class MainRepository @Inject constructor(
     }
 
 
-    fun getAsLiveData(): LiveData<List<Tele>> {
-        return allTeleLiveData
+    fun getAsLiveData(): LiveData<List<Note>> {
+        return allNoteLiveData
     }
 
 }

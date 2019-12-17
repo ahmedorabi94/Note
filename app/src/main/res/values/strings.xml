@@ -30,4 +30,7 @@
     <string name="run_fast_image">Run Fast Image</string>
     <string name="run_slow_image">Run Slow Image</string>
     <string name="camera_permission">Need Camera Permission</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
