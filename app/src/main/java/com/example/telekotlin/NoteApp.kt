@@ -7,7 +7,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
-class TeleApp : Application(), HasActivityInjector {
+class NoteApp : Application(), HasActivityInjector {
 
 
 

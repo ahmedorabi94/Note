@@ -18,8 +18,10 @@ class NoteDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-      //  val args = arguments!!
-       // Log.e("NoteDetailsFragment", args.getString("row_id")!!)
+
+        val arg = arguments
+
+        Log.e("NoteDetailsFragment", "${arg!!.getInt("row_id")}")
 
     }
 

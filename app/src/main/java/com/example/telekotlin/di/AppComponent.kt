@@ -1,7 +1,7 @@
 package com.example.telekotlin.di
 
 import android.app.Application
-import com.example.telekotlin.TeleApp
+import com.example.telekotlin.NoteApp
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -22,6 +22,6 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun inject(teleApp: TeleApp)
+    fun inject(noteApp: NoteApp)
 
 }

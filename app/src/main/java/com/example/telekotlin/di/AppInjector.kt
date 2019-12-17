@@ -6,17 +6,17 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.example.telekotlin.TeleApp
+import com.example.telekotlin.NoteApp
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 
 object AppInjector {
 
-    fun init(teleApp: TeleApp) {
-        DaggerAppComponent.builder().application(teleApp)
-            .build().inject(teleApp)
-        teleApp
+    fun init(noteApp: NoteApp) {
+        DaggerAppComponent.builder().application(noteApp)
+            .build().inject(noteApp)
+        noteApp
             .registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                     handleActivity(activity)
