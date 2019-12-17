@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.example.telekotlin.repository.data.Note
 
 @Dao
-interface TeleDao {
+interface NoteDao {
 
 
     @Insert

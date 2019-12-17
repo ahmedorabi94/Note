@@ -1,8 +1,12 @@
 package com.example.telekotlin.ui
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,10 +19,13 @@ import com.example.telekotlin.databinding.FragmentListItemBinding
 import com.example.telekotlin.di.Injectable
 import com.example.telekotlin.repository.data.Note
 import com.example.telekotlin.viewModels.ListItemViewModel
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.lang.StringBuilder
 import javax.inject.Inject
 
 
-class ListItemFragment : Fragment(), Injectable, NoteCallback {
+class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuItemClickListener {
 
 
     @Inject
@@ -31,6 +38,8 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback {
     private lateinit var binding: FragmentListItemBinding
 
     private lateinit var noteAdapter: NoteAdapter
+
+    private val REQUEST_CODE = 100
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,6 +97,10 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback {
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
+        binding.fab.setOnClickListener {
+            showPopup(it)
+        }
+
 
         return binding.root
     }
@@ -135,6 +148,89 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback {
             .navigate(R.id.action_listItemFragment_to_noteDetailsFragment, arg)
 
 
+    }
+
+    private fun showPopup(view: View) {
+
+        val popup = PopupMenu(context, view)
+        val inflater = popup.menuInflater
+        popup.setOnMenuItemClickListener(this)
+        inflater.inflate(R.menu.popup_menu, popup.menu)
+        popup.show()
+
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+
+        when (item!!.itemId) {
+            R.id.add_text_popup -> {
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_listItemFragment_to_noteDetailsFragment)
+                return true
+            }
+
+            R.id.import_text -> {
+                openFileManager()
+                return true
+            }
+
+        }
+
+        return false
+    }
+
+
+    private fun openFileManager() {
+
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "*/*"
+        startActivityForResult(intent, REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+
+            val uri = data!!.data
+
+            val text = uri?.let {
+                readTextFromUri(it)
+            }
+
+            val args = Bundle()
+            args.putString("body", text)
+
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_listItemFragment_to_noteDetailsFragment, args)
+
+
+
+        }
+
+    }
+
+    private fun readTextFromUri(uri : Uri) : String{
+
+        val inputStream = context!!.contentResolver.openInputStream(uri)
+        val reader = BufferedReader(InputStreamReader(inputStream!!))
+        val stringBuilder = StringBuilder()
+       // var line : String
+
+//        while ((line = reader.readLine()) != null) {
+//            stringBuilder.append(line)
+//
+//        }
+
+        reader.lineSequence().forEach {
+            stringBuilder.append(it)
+
+        }
+
+        inputStream.close()
+        reader.close()
+        return stringBuilder.toString()
     }
 
 }

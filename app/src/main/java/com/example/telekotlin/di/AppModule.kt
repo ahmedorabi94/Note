@@ -3,7 +3,7 @@ package com.example.telekotlin.di
 import android.app.Application
 import androidx.room.Room
 import com.example.telekotlin.repository.roomDb.AppDatabase
-import com.example.telekotlin.repository.roomDb.TeleDao
+import com.example.telekotlin.repository.roomDb.NoteDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,8 +25,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideDao(database: AppDatabase): TeleDao {
-        return database.teleDao
+    fun provideDao(database: AppDatabase): NoteDao {
+        return database.noteDao
     }
 
 }

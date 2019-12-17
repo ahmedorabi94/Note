@@ -4,14 +4,14 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import com.example.telekotlin.R
 import com.example.telekotlin.repository.data.Note
-import com.example.telekotlin.repository.roomDb.TeleDao
+import com.example.telekotlin.repository.roomDb.NoteDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
-    private val teleDao: TeleDao,
+    private val noteDao: NoteDao,
     private val application: Application
 ) {
 
@@ -29,20 +29,20 @@ class MainRepository @Inject constructor(
     }
 
     private fun getAllTeles() {
-        allNoteLiveData = teleDao.getAllTele()
+        allNoteLiveData = noteDao.getAllTele()
     }
 
 
     fun deleteAlltele() {
         CoroutineScope(IO).launch {
-            teleDao.deleteAllTele()
+            noteDao.deleteAllTele()
         }
     }
 
     fun deleteTele(id: Int) {
 
         CoroutineScope(IO).launch {
-            teleDao.deleteTele(id)
+            noteDao.deleteTele(id)
         }
     }
 
@@ -55,7 +55,7 @@ class MainRepository @Inject constructor(
         )
 
         CoroutineScope(IO).launch {
-            teleDao.insert(tele)
+            noteDao.insert(tele)
         }
 
     }
