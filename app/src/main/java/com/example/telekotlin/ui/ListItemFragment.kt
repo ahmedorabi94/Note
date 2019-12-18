@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentListItemBinding
@@ -108,6 +109,10 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
     private fun initRecyclerView() {
         recyclerView = binding.recyclerView
         recyclerView.setHasFixedSize(true)
+
+        val linearLayout  = LinearLayoutManager(context)
+        linearLayout.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = linearLayout
     }
 
 

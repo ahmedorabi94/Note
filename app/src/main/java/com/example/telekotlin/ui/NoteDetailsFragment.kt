@@ -2,13 +2,13 @@ package com.example.telekotlin.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentNoteDetailsBinding
 import com.example.telekotlin.di.Injectable
 import com.example.telekotlin.viewModels.DetailViewModel
@@ -48,6 +48,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel::class.java)
 
 
+        setHasOptionsMenu(true)
 
         if (rowId != -1) {
             viewModel.getNote(rowId)
@@ -60,9 +61,55 @@ class NoteDetailsFragment : Fragment(), Injectable {
             })
         }
 
+        binding.saveNoteFab.setOnClickListener {
+            saveNote(binding.edTitle.text.toString(), binding.edBody.text.toString())
+            Navigation.findNavController(binding.root).navigateUp()
+        }
+
 
 
         return binding.root
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.add_text_menu, menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            R.id.delete_current_item -> {
+                viewModel.deleteNote(rowId)
+                Navigation.findNavController(binding.root).navigateUp()
+                return true
+            }
+
+            R.id.save_btn -> {
+                saveNote(binding.edTitle.text.toString(), binding.edBody.text.toString())
+                Navigation.findNavController(binding.root).navigateUp()
+
+                return true
+            }
+        }
+
+
+
+        return super.onOptionsItemSelected(item)
+
+    }
+
+
+    private fun saveNote(title: String, body: String) {
+        if (rowId == -1) {
+            viewModel.insertNewNote(title, body)
+
+        } else {
+            viewModel.updateNote(rowId, title, body)
+        }
+    }
+
 
 }
