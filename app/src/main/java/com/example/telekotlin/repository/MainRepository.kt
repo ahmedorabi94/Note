@@ -51,7 +51,8 @@ class MainRepository @Inject constructor(
 
         val tele = Note(
             application.getString(R.string.lores_ipsum),
-            application.getString(R.string.some_text)
+            application.getString(R.string.some_text),
+            null
         )
 
         CoroutineScope(IO).launch {
