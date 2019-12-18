@@ -51,6 +51,9 @@ class NoteDetailsFragment : Fragment(), Injectable {
         setHasOptionsMenu(true)
 
         if (rowId != -1) {
+
+            activity!!.title = "Edit Note"
+
             viewModel.getNote(rowId)
 
             viewModel.getNoteLiveData().observe(this, Observer {
@@ -59,6 +62,9 @@ class NoteDetailsFragment : Fragment(), Injectable {
                 binding.edTitle.setText(it.title)
                 binding.edBody.setText(it.body)
             })
+        }else{
+            activity!!.title = "Add Note"
+
         }
 
         binding.saveNoteFab.setOnClickListener {

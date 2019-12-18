@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tele Kotlin</string>
+    <string name="app_name">Notes</string>
 
     <string name="action_settings">Insert Dummy Data</string>
     <string name="add_title">Add title</string>

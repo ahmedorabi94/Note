@@ -7,7 +7,7 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/white_background"
         tools:context=".ui.NoteDetailsFragment">
 
         <EditText
@@ -16,6 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:background="@null"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:hint="@string/add_title"
             android:inputType="text"
             android:paddingStart="12dp"
@@ -30,9 +32,9 @@
         <View
             android:id="@+id/view"
             android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="57dp"
-            android:background="#ffffff"
+            android:layout_height="1dp"
+            android:layout_marginTop="30dp"
+            android:background="#d0d0d0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ed_title" />
@@ -41,7 +43,9 @@
             android:id="@+id/ed_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="46dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@null"
             android:hint="@string/add_some_text_here"
             android:inputType="textCapSentences|textMultiLine"

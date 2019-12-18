@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +56,8 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
         binding.lifecycleOwner = this
         initRecyclerView()
+
+        activity!!.title = "Notes"
 
         setHasOptionsMenu(true)
 
@@ -109,6 +112,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
     private fun initRecyclerView() {
         recyclerView = binding.recyclerView
         recyclerView.setHasFixedSize(true)
+        recyclerView.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
 
         val linearLayout  = LinearLayoutManager(context)
         linearLayout.orientation = LinearLayoutManager.VERTICAL
