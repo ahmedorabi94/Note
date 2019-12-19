@@ -1,2 +1,2 @@
-include ':app', ':scanlibrary'
+include ':app'
 rootProject.name='Tele Kotlin'
