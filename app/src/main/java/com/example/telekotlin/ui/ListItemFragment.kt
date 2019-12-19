@@ -12,7 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentListItemBinding
@@ -53,13 +55,17 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListItemViewModel::class.java)
 
         binding.lifecycleOwner = this
-        initRecyclerView()
+
+
+
+        activity!!.title = "Notes"
 
         setHasOptionsMenu(true)
 
+        initRecyclerView()
+
         noteAdapter = NoteAdapter(this)
         recyclerView.adapter = noteAdapter
-
 
 
         viewModel.getAllTeleLiveData().observe(this, Observer {
@@ -108,6 +114,10 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
     private fun initRecyclerView() {
         recyclerView = binding.recyclerView
         recyclerView.setHasFixedSize(true)
+        recyclerView.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+
+        val linearLayout  = LinearLayoutManager(activity)
+        recyclerView.layoutManager = linearLayout
     }
 
 
@@ -171,6 +181,11 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
             R.id.import_text -> {
                 openFileManager()
+                return true
+            }
+
+            R.id.signatureItem -> {
+                Navigation.findNavController(binding.root).navigate(R.id.action_listItemFragment_to_signatureFragment)
                 return true
             }
 

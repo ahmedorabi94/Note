@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="pen_size">3dp</dimen>
+
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="cross_hairs_margin">70dp</dimen>
+    <dimen name="image_preview_size">100dp</dimen>
+    <dimen name="margin_small">5dp</dimen>
+    <dimen name="header_height">80dp</dimen>
+
+    <!-- Margins -->
+    <dimen name="text_field_horizontal_margin">16dp</dimen>
+    <dimen name="enrollment_fingerprints_margin">32dp</dimen>
+    <dimen name="record_details_pager_padding">16dp</dimen>
+    <dimen name="record_details_owner_star_margin">8dp</dimen>
+    <dimen name="record_details_horizontal_margin">8dp</dimen>
+    <dimen name="fingerprint_details_horizontal_padding">15dp</dimen>
+    <dimen name="fingerprint_details_internal_padding">4dp</dimen>
+    <dimen name="fingerprint_details_index_padding">40dp</dimen>
+    <dimen name="fingerprint_details_middle_padding">64dp</dimen>
+    <dimen name="fingerprint_details_ring_padding">32dp</dimen>
+    <dimen name="fingerprint_details_little_padding">-16dp</dimen>
+    <dimen name="pager_header_margin">4dp</dimen>
+    <dimen name="cardview_height">140dp</dimen>
+    <dimen name="cardview_internal_margin">8dp</dimen>
+    <dimen name="cardview_internal_star_padding">8dp</dimen>
+    <dimen name="cardview_external_horizontal_margin">8dp</dimen>
+    <dimen name="cardview_external_vertical_margin">4dp</dimen>
+    <dimen name="cardview_elevation">4dp</dimen>
+    <dimen name="result_top_margin">64dp</dimen>
+    <dimen name="result_horizontal_margin">64dp</dimen>
+    <dimen name="result_vertical_margin">8dp</dimen>
+    <dimen name="result_portrait_dimension">200dp</dimen>
+    <dimen name="result_portrait_margin">5dp</dimen>
+    <dimen name="result_internal_padding">10dp</dimen>
+    <dimen name="inter_line_width">180dp</dimen>
+    <dimen name="inter_line_height">1dp</dimen>
+
+    <!-- Font sizes -->
+    <dimen name="button_font_size">20sp</dimen>
+    <dimen name="text_field_font_size">16sp</dimen>
+    <dimen name="result_status_font_size">18sp</dimen>
+    <dimen name="record_details_font_size">18sp</dimen>
+    <dimen name="capture_info_font_size">16sp</dimen>
+</resources>

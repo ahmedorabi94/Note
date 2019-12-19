@@ -27,7 +27,7 @@ class DetailRepository @Inject constructor(
 
     fun insertNewNote(title: String, body: String) {
 
-        val note = Note(title, body)
+        val note = Note(title, body,null)
         CoroutineScope(IO).launch {
             noteDao.insert(note)
         }

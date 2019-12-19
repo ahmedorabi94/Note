@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/graph"
     app:startDestination="@id/listItemFragment">
 
@@ -11,9 +12,17 @@
         <action
             android:id="@+id/action_listItemFragment_to_noteDetailsFragment"
             app:destination="@id/noteDetailsFragment" />
+        <action
+            android:id="@+id/action_listItemFragment_to_signatureFragment"
+            app:destination="@id/signatureFragment" />
     </fragment>
     <fragment
         android:id="@+id/noteDetailsFragment"
         android:name="com.example.telekotlin.ui.NoteDetailsFragment"
         android:label="NoteDetailsFragment" />
+    <fragment
+        android:id="@+id/signatureFragment"
+        android:name="com.example.telekotlin.ui.SignatureFragment"
+        android:label="fragment_signature"
+        tools:layout="@layout/fragment_signature" />
 </navigation>

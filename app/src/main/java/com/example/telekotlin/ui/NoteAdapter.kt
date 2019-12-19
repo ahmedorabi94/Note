@@ -11,19 +11,22 @@ import com.example.telekotlin.repository.data.Note
 class NoteAdapter(private val callback: NoteCallback) : ListAdapter<Note, NoteAdapter.MyViewHolder>(DiffCallback) {
 
 
+
+
+
     companion object DiffCallback : DiffUtil.ItemCallback<Note>() {
         override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem.body == newItem.body
+            return oldItem.title == newItem.title && oldItem.body == newItem.body
         }
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
 
         binding.callback = callback
         return MyViewHolder(binding)
