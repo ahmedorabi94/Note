@@ -55,7 +55,6 @@ class SignatureFragment : Fragment(), SignaturePad.OnSignedListener, Injectable 
 
             viewModel.insertNote("", "", byte)
 
-            binding.userSignature.setImageBitmap(bitmap)
 
             Log.e("SignatureFragment", bitmap.toString())
 
