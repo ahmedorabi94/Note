@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.telekotlin.viewModels.DetailViewModel
 import com.example.telekotlin.viewModels.ListItemViewModel
+import com.example.telekotlin.viewModels.SignatureViewModel
 import com.example.telekotlin.viewModels.TeleViewModelFactory
 import dagger.Binds
 import dagger.Module
@@ -23,6 +24,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DetailViewModel::class)
     abstract fun bindDetailViewModel(detailViewModel: DetailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SignatureViewModel::class)
+    abstract fun bindSignatureViewModel(signatureViewModel: SignatureViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: TeleViewModelFactory): ViewModelProvider.Factory

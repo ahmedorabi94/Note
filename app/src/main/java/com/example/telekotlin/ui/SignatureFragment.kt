@@ -1,17 +1,28 @@
 package com.example.telekotlin.ui
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.telekotlin.databinding.FragmentSignatureBinding
+import com.example.telekotlin.di.Injectable
+import com.example.telekotlin.viewModels.SignatureViewModel
 import com.github.gcacace.signaturepad.views.SignaturePad
+import java.io.ByteArrayOutputStream
+import javax.inject.Inject
 
 
-class SignatureFragment : Fragment(), SignaturePad.OnSignedListener {
+class SignatureFragment : Fragment(), SignaturePad.OnSignedListener, Injectable {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var viewModel: SignatureViewModel
 
     private lateinit var binding: FragmentSignatureBinding
 
@@ -25,6 +36,10 @@ class SignatureFragment : Fragment(), SignaturePad.OnSignedListener {
 
         binding = FragmentSignatureBinding.inflate(inflater, container, false)
 
+        viewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(SignatureViewModel::class.java)
+
+
         signaturePad = binding.signatureView
 
         signaturePad.setOnSignedListener(this)
@@ -36,7 +51,10 @@ class SignatureFragment : Fragment(), SignaturePad.OnSignedListener {
             val bitmap = signaturePad.transparentSignatureBitmap
 
 
-            binding.userSignature.setImageBitmap(bitmap)
+            val byte = convertToByte(bitmap)
+
+            viewModel.insertNote("", "", byte)
+
 
             Log.e("SignatureFragment", bitmap.toString())
 
@@ -62,5 +80,15 @@ class SignatureFragment : Fragment(), SignaturePad.OnSignedListener {
     override fun onSigned() {
         Log.e("SignatureFragment", "onSigned")
     }
+
+
+    private fun convertToByte(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val byte = stream.toByteArray()
+     //   bitmap.recycle()
+        return byte
+    }
+
 
 }
