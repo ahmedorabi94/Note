@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import com.example.telekotlin.repository.data.Note
 import com.example.telekotlin.repository.roomDb.NoteDao
+import com.example.telekotlin.util.AppUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class DetailRepository @Inject constructor(
 
     fun insertNewNote(title: String, body: String) {
 
-        val note = Note(title, body,null)
+        val note = Note(title, body,null, AppUtils.getDate())
         CoroutineScope(IO).launch {
             noteDao.insert(note)
         }

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.example.telekotlin.R
 import com.example.telekotlin.repository.data.Note
 import com.example.telekotlin.repository.roomDb.NoteDao
+import com.example.telekotlin.util.AppUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -52,7 +53,8 @@ class MainRepository @Inject constructor(
         val tele = Note(
             application.getString(R.string.lores_ipsum),
             application.getString(R.string.some_text),
-            null
+            null,
+            AppUtils.getDate()
         )
 
         CoroutineScope(IO).launch {
@@ -63,7 +65,11 @@ class MainRepository @Inject constructor(
 
 
     fun getAsLiveData(): LiveData<List<Note>> {
+
+
         return allNoteLiveData
     }
+
+
 
 }
