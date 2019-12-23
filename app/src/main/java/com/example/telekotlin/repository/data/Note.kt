@@ -8,7 +8,8 @@ import androidx.room.PrimaryKey
 data class Note(
     val title: String,
     val body: String,
-    val signature: ByteArray?
+    val signature: ByteArray?,
+    val date: String
 
 ) {
 
