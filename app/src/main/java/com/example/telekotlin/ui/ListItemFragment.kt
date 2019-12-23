@@ -334,6 +334,8 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
         }
 
+        Log.e("ListFragment",stringBuilder.toString())
+
         inputStream.close()
         reader.close()
         return stringBuilder.toString()

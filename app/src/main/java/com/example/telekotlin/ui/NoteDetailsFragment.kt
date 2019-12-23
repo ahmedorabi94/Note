@@ -25,6 +25,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
     private lateinit var binding: FragmentNoteDetailsBinding
 
     private var rowId: Int = -1
+    private var body: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
         val arg = arguments
         if (arg != null) {
             rowId = arg.getInt("row_id")
+            body = arg.getString("body")
 
         }
 
@@ -56,13 +58,19 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
             viewModel.getNote(rowId)
 
-            viewModel.getNoteLiveData().observe(this, Observer {
-                Log.e("NoteDetail", it.body)
+            if (body != null) {
+                binding.edBody.setText(body)
+            } else {
+                viewModel.getNoteLiveData().observe(this, Observer {
+                    Log.e("NoteDetail", it.body)
 
-                binding.edTitle.setText(it.title)
-                binding.edBody.setText(it.body)
-            })
-        }else{
+                    binding.edTitle.setText(it.title)
+                    binding.edBody.setText(it.body)
+                })
+            }
+
+
+        } else {
             activity!!.title = "Add Note"
 
         }
@@ -109,7 +117,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
 
     private fun saveNote(title: String, body: String) {
-        if (rowId == -1) {
+        if (rowId == -1 || this.body != null) {
             viewModel.insertNewNote(title, body)
 
         } else {
