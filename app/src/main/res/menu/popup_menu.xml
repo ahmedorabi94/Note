@@ -13,6 +13,8 @@
 
     <item
         android:id="@+id/signatureItem"
-        android:title="@string/signature"
-        />
+        android:title="@string/signature" />
+    <item
+        android:id="@+id/reminderItem"
+        android:title="@string/reminder" />
 </menu>

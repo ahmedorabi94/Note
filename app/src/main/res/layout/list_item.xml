@@ -21,10 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="4dp"
         android:descendantFocusability="blocksDescendants"
         android:onClick="@{() -> callback.onNoteClick(note)}"
-        android:paddingBottom="8dp">
+        android:paddingBottom="5dp">
 
 
         <TextView
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="@{note.date}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +58,6 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif"
             android:maxLines="4"
-            android:paddingBottom="5dp"
             android:text="@{note.body}"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/body_color"
@@ -73,6 +72,7 @@
             android:layout_height="120dp"
             android:layout_marginEnd="12dp"
             android:scaleType="fitCenter"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

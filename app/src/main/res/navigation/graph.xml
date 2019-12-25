@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_listItemFragment_to_signatureFragment"
             app:destination="@id/signatureFragment" />
+        <action
+            android:id="@+id/action_listItemFragment_to_reminderDialogFragment"
+            app:destination="@id/reminderDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/noteDetailsFragment"
@@ -25,4 +28,9 @@
         android:name="com.example.telekotlin.ui.SignatureFragment"
         android:label="fragment_signature"
         tools:layout="@layout/fragment_signature" />
+    <fragment
+        android:id="@+id/reminderDialogFragment"
+        android:name="com.example.telekotlin.ui.ReminderDialogFragment"
+        android:label="fragment_reminder_dialog"
+        tools:layout="@layout/fragment_reminder_dialog" />
 </navigation>

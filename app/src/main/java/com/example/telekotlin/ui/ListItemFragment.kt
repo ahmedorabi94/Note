@@ -1,15 +1,21 @@
 package com.example.telekotlin.ui
 
+import android.app.ActionBar
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +30,7 @@ import com.example.telekotlin.databinding.FragmentListItemBinding
 import com.example.telekotlin.di.Injectable
 import com.example.telekotlin.repository.data.Note
 import com.example.telekotlin.viewModels.ListItemViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import javax.inject.Inject
@@ -192,6 +199,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
         binding.fab.setOnClickListener {
             showPopup(it)
+           // setupPopupWindows(it)
         }
 
 
@@ -245,6 +253,10 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         val arg = Bundle()
         arg.putInt("row_id", note.id)
 
+        if (note.signature != null){
+           arg.putBoolean("isSign",true)
+        }
+
         Navigation.findNavController(binding.root)
             .navigate(R.id.action_listItemFragment_to_noteDetailsFragment, arg)
 
@@ -278,6 +290,18 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
             R.id.signatureItem -> {
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_listItemFragment_to_signatureFragment)
+                return true
+            }
+
+            R.id.reminderItem -> {
+
+                val fragmentManager = fragmentManager
+                val fragment = ReminderDialogFragment()
+                if (fragmentManager != null) {
+                    fragment.show(fragmentManager,"fragment_reminder")
+                }
+
+                //Navigation.findNavController(binding.root).navigate(R.id.action_listItemFragment_to_reminderDialogFragment)
                 return true
             }
 
@@ -339,6 +363,31 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         inputStream.close()
         reader.close()
         return stringBuilder.toString()
+    }
+
+
+    private fun setupPopupWindows(view: View){
+
+        val inflate : LayoutInflater = activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popView  = inflate.inflate(R.layout.pop_layout,null)
+
+        val popupWindows = PopupWindow(popView,ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT,true)
+
+        popupWindows.setBackgroundDrawable(BitmapDrawable())
+        popupWindows.isOutsideTouchable = true
+        popupWindows.setOnDismissListener {
+
+        }
+
+        popView.findViewById<FloatingActionButton>(R.id.addTextFb).setOnClickListener {
+
+            Toast.makeText(activity,"Hello",Toast.LENGTH_SHORT).show()
+
+            popupWindows.dismiss()
+        }
+
+        popupWindows.showAsDropDown(view,-100,50)
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.telekotlin.ui
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -27,12 +28,15 @@ class NoteDetailsFragment : Fragment(), Injectable {
     private var rowId: Int = -1
     private var body: String? = ""
 
+    private var isSign: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val arg = arguments
         if (arg != null) {
             rowId = arg.getInt("row_id")
+            isSign = arg.getBoolean("isSign")
             body = arg.getString("body")
 
         }
@@ -50,6 +54,10 @@ class NoteDetailsFragment : Fragment(), Injectable {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel::class.java)
 
 
+        if (!isSign) {
+            binding.signImage.visibility = View.GONE
+        }
+
         setHasOptionsMenu(true)
 
         if (rowId != -1) {
@@ -66,6 +74,12 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
                     binding.edTitle.setText(it.title)
                     binding.edBody.setText(it.body)
+
+                    if (isSign) {
+                        val bitmap =
+                            BitmapFactory.decodeByteArray(it.signature, 0, it.signature!!.size)
+                        binding.signImage.setImageBitmap(bitmap)
+                    }
                 })
             }
 
@@ -73,7 +87,9 @@ class NoteDetailsFragment : Fragment(), Injectable {
         } else {
             activity!!.title = "Add Note"
 
+
         }
+
 
         binding.saveNoteFab.setOnClickListener {
             saveNote(binding.edTitle.text.toString(), binding.edBody.text.toString())
