@@ -2,6 +2,7 @@ package com.example.telekotlin.ui
 
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +12,6 @@ import androidx.fragment.app.DialogFragment
 import com.example.telekotlin.databinding.FragmentReminderDialogBinding
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 
 class ReminderDialogFragment : DialogFragment() {
@@ -44,6 +44,36 @@ class ReminderDialogFragment : DialogFragment() {
             ).show()
         }
 
+
+
+        binding.timeImage.setOnClickListener {
+
+            val calender = Calendar.getInstance()
+            val timeSetLisener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                calender.set(Calendar.HOUR_OF_DAY, hour)
+                calender.set(Calendar.MINUTE, minute)
+
+                Log.e("Reminder", SimpleDateFormat("HH:mm", Locale.UK).format(calender.time))
+
+
+                NotificationScheduler.setReminder(
+                    context!!,
+                    hour,
+                    minute,
+                    AlarmReceiver::class.java
+                )
+            }
+
+            TimePickerDialog(
+                context,
+                timeSetLisener,
+                calender.get(Calendar.HOUR_OF_DAY),
+                calender.get(Calendar.MINUTE),
+                true
+            ).show()
+
+        }
+
         return binding.root
     }
 
@@ -53,6 +83,15 @@ class ReminderDialogFragment : DialogFragment() {
         val sdf = SimpleDateFormat(myFormat, Locale.UK)
 
         Log.e("Reminder", sdf.format(myCalendar.time))
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val params: ViewGroup.LayoutParams = dialog!!.window!!.attributes
+        params.width = 1000
+        params.height = 1000
+        dialog!!.window!!.attributes = params as android.view.WindowManager.LayoutParams
     }
 
 }
