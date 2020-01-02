@@ -99,5 +99,7 @@ dependencies {
 
     implementation 'com.nightonke:boommenu:2.1.1'
 
+    implementation 'io.github.yavski:fab-speed-dial:1.0.6'
+
 
 }

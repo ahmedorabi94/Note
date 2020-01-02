@@ -197,10 +197,10 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        binding.fab.setOnClickListener {
-            showPopup(it)
-           // setupPopupWindows(it)
-        }
+//        binding.fab.setOnClickListener {
+//            showPopup(it)
+//           // setupPopupWindows(it)
+//        }
 
 
         return binding.root

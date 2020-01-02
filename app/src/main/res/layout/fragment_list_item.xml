@@ -47,18 +47,20 @@
 
         </RelativeLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+        <io.github.yavski.fabspeeddial.FabSpeedDial
+            android:id="@+id/fabBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            app:backgroundTint="@color/colorAccent"
-            app:srcCompat="@drawable/ic_plus_white_36dp" />
+            app:fabGravity="bottom_end"
+            android:layout_gravity="bottom|end"
+            app:fabMenu="@menu/fab_menu_item"
+            app:miniFabBackgroundTint="@android:color/white"
+            app:miniFabDrawableTint="?attr/colorPrimaryDark"
+            app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
 
     </RelativeLayout>
 
