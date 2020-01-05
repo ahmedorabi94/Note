@@ -96,11 +96,11 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
                         return true
                     }
                     R.id.audio_item -> {
-                        Log.e("ListFragment", "Audio Item")
+                        Navigation.findNavController(binding.root)
+                            .navigate(R.id.action_listItemFragment_to_audioRecordFragment)
                         return true
                     }
-                    R.id.reminder_item ->
-                    {
+                    R.id.reminder_item -> {
                         val fragmentManager = fragmentManager
                         val fragment = ReminderDialogFragment()
                         if (fragmentManager != null) {

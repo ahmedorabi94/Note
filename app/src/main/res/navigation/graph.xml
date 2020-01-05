@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_listItemFragment_to_reminderDialogFragment"
             app:destination="@id/reminderDialogFragment" />
+        <action
+            android:id="@+id/action_listItemFragment_to_audioRecordFragment"
+            app:destination="@id/audioRecordFragment" />
     </fragment>
     <fragment
         android:id="@+id/noteDetailsFragment"
@@ -33,4 +36,8 @@
         android:name="com.example.telekotlin.ui.ReminderDialogFragment"
         android:label="fragment_reminder_dialog"
         tools:layout="@layout/fragment_reminder_dialog" />
+    <fragment
+        android:id="@+id/audioRecordFragment"
+        android:name="com.example.telekotlin.ui.AudioRecordFragment"
+        android:label="AudioRecordFragment" />
 </navigation>
