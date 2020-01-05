@@ -100,8 +100,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
                         return true
                     }
                     R.id.reminder_item ->
-
-
                     {
                         val fragmentManager = fragmentManager
                         val fragment = ReminderDialogFragment()
