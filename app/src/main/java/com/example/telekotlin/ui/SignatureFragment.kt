@@ -60,6 +60,12 @@ class SignatureFragment : Fragment(), SignaturePad.OnSignedListener, Injectable 
 
 
 
+
+
+
+
+
+
         binding.saveSignature.setOnClickListener {
 
             val bitmap = signaturePad.transparentSignatureBitmap
