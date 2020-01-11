@@ -412,34 +412,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
     }
 
 
-    private fun setupPopupWindows(view: View) {
 
-        val inflate: LayoutInflater =
-            activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popView = inflate.inflate(R.layout.pop_layout, null)
-
-        val popupWindows = PopupWindow(
-            popView,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            true
-        )
-
-        popupWindows.setBackgroundDrawable(BitmapDrawable())
-        popupWindows.isOutsideTouchable = true
-        popupWindows.setOnDismissListener {
-
-        }
-
-        popView.findViewById<FloatingActionButton>(R.id.addTextFb).setOnClickListener {
-
-            Toast.makeText(activity, "Hello", Toast.LENGTH_SHORT).show()
-
-            popupWindows.dismiss()
-        }
-
-        popupWindows.showAsDropDown(view, -100, 50)
-
-    }
 
 }

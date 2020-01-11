@@ -17,6 +17,7 @@
             android:layout_height="300dp"
             android:layout_marginTop="20dp"
             android:scaleType="fitCenter"
+            android:background="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -80,6 +81,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_check_white_48dp" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

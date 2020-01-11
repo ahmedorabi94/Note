@@ -10,6 +10,7 @@ import androidx.databinding.BindingAdapter
 fun setImage(imageView: ImageView, byteArray: ByteArray?) {
 
     if (byteArray != null) {
+        imageView.visibility = View.VISIBLE
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
 
         imageView.setImageBitmap(bitmap)

@@ -1,32 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@android:color/darker_gray"
     android:padding="10dp">
 
 
-    <TextView
-        android:id="@+id/popTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:text="Text Note"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/blackFab"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@null"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addTextFb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:background="@null"
+        android:id="@+id/blueFab"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_file_document_white_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/popTv"
-        app:layout_constraintStart_toEndOf="@+id/popTv"
-        app:layout_constraintTop_toTopOf="@+id/popTv" />
+        android:layout_marginStart="12dp"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/blackFab"
+        app:layout_constraintStart_toEndOf="@+id/blackFab"
+        app:layout_constraintTop_toTopOf="@+id/blackFab" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/redFab"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:scaleType="fitCenter"
+        android:layout_marginStart="12dp"
+        app:backgroundTint="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/blackFab"
+        app:layout_constraintStart_toEndOf="@+id/blueFab"
+        app:layout_constraintTop_toTopOf="@+id/blackFab" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/greenFab"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:scaleType="fitCenter"
+        android:layout_marginStart="12dp"
+        app:backgroundTint="@android:color/holo_green_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/blackFab"
+        app:layout_constraintStart_toEndOf="@+id/redFab"
+        app:layout_constraintTop_toTopOf="@+id/blackFab"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
