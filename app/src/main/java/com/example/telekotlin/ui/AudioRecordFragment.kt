@@ -41,6 +41,9 @@ class AudioRecordFragment : Fragment() {
     private val customHandler: Handler = Handler()
 
 
+
+
+
     private val runnable = object : Runnable {
         override fun run() {
 
