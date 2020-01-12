@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
+import android.os.Handler
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +34,34 @@ class AudioRecordFragment : Fragment() {
 
     private lateinit var binding: FragmentAudioRecordBinding
 
+
+    private var timeInMilliseconds: Long = 0L
+    private val startHTime: Long = 0L
+    private val timeSwapBuff: Long = 0L
+    private val customHandler: Handler = Handler()
+
+
+    private val runnable = object : Runnable {
+        override fun run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - startHTime
+            val updatedTime = timeSwapBuff + timeInMilliseconds
+
+            var secs: Int = (updatedTime / 100).toInt()
+            val mins: Int = secs / 60
+            secs %= 60
+
+            Log.e(
+                "AudioFragment ",
+                String.format("%02d", mins) + ":" + String.format("%02d", secs)
+            );
+
+            customHandler.postDelayed(this, 0)
+        }
+
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +76,7 @@ class AudioRecordFragment : Fragment() {
 
 
         binding.startRecordBtn.setOnClickListener {
+            customHandler.postDelayed(runnable,0)
             onRecord(true)
 
         }
@@ -148,5 +179,6 @@ class AudioRecordFragment : Fragment() {
         player?.release()
         player = null
     }
+
 
 }

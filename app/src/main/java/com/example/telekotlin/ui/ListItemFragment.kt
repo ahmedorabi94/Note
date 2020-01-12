@@ -1,18 +1,14 @@
 package com.example.telekotlin.ui
 
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
-import android.widget.PopupWindow
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -28,7 +24,6 @@ import com.example.telekotlin.databinding.FragmentListItemBinding
 import com.example.telekotlin.di.Injectable
 import com.example.telekotlin.repository.data.Note
 import com.example.telekotlin.viewModels.ListItemViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.internal.NavigationMenu
 import io.github.yavski.fabspeeddial.FabSpeedDial
 import java.io.BufferedReader
@@ -52,7 +47,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
     private val REQUEST_CODE = 100
 
-    private val p = Paint()
 
     val clearPaint =
         Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
@@ -218,7 +212,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
                     val deleteIconBottom = deleteIconTop + intrinsicHeight
 
                     // Draw the delete icon
-                    deleteIcon!!.setBounds(
+                    deleteIcon.setBounds(
                         deleteIconLeft,
                         deleteIconTop,
                         deleteIconRight,
@@ -410,8 +404,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         reader.close()
         return stringBuilder.toString()
     }
-
-
 
 
 }
