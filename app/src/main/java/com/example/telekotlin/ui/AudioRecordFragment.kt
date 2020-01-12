@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentAudioRecordBinding
 import java.io.IOException
 
@@ -36,30 +37,29 @@ class AudioRecordFragment : Fragment() {
 
 
     private var timeInMilliseconds: Long = 0L
-    private val startHTime: Long = 0L
+    private var startHTime: Long = 0L
     private val timeSwapBuff: Long = 0L
     private val customHandler: Handler = Handler()
 
 
-
-
-
+    private var isRecording: Boolean = false
+    private var isPlaying: Boolean = false
 
 
     private val runnable = object : Runnable {
         override fun run() {
 
             timeInMilliseconds = SystemClock.uptimeMillis() - startHTime
-            val updatedTime = timeSwapBuff + timeInMilliseconds
+            val updatedTime: Long = timeSwapBuff + timeInMilliseconds
 
             var secs: Int = (updatedTime / 100).toInt()
             val mins: Int = secs / 60
             secs %= 60
 
-            Log.e(
-                "AudioFragment ",
-                String.format("%02d", mins) + ":" + String.format("%02d", secs)
-            );
+
+            binding.tvTimer.text =
+                "" + String.format("%02d", mins) + ":" + String.format("%02d", secs)
+
 
             customHandler.postDelayed(this, 0)
         }
@@ -81,18 +81,41 @@ class AudioRecordFragment : Fragment() {
 
 
         binding.startRecordBtn.setOnClickListener {
-            customHandler.postDelayed(runnable,0)
-            onRecord(true)
+
 
         }
 
         binding.stopRecordBtn.setOnClickListener {
-            onRecord(false)
         }
 
         binding.startPlayingBtn.setOnClickListener {
             onPlay(true)
         }
+
+
+
+        binding.recordBtn.setOnClickListener {
+
+            if (!isRecording) {
+                startHTime = SystemClock.uptimeMillis()
+                customHandler.postDelayed(runnable, 0)
+                onRecord(true)
+                binding.recordBtn.setImageDrawable(activity!!.resources.getDrawable(R.drawable.ic_pause_grey600_48dp))
+                isRecording = true
+            } else {
+                // pause not stop
+                onRecord(false)
+                binding.recordBtn.setImageDrawable(activity!!.resources.getDrawable(R.drawable.ic_record_grey600_48dp))
+                isRecording = false
+            }
+
+        }
+
+
+        binding.playBtn.setOnClickListener {
+
+        }
+
 
 
         return binding.root
