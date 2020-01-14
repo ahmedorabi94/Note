@@ -1,9 +1,12 @@
 package com.example.telekotlin.ui
 
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +16,7 @@ import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentNoteDetailsBinding
 import com.example.telekotlin.di.Injectable
 import com.example.telekotlin.viewModels.DetailViewModel
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -29,6 +33,25 @@ class NoteDetailsFragment : Fragment(), Injectable {
     private var body: String? = ""
 
     private var isSign: Boolean = false
+    private var fileName: String? = null
+    private var player: MediaPlayer? = null
+
+    private val customHandler: Handler = Handler()
+
+    private val runnable = object : Runnable {
+
+        override fun run() {
+            if (player != null) {
+                val currentPosition = player!!.currentPosition
+                binding.seekbar.progress = currentPosition
+            }
+            customHandler.postDelayed(this, 50)
+
+        }
+
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +61,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
             rowId = arg.getInt("row_id")
             isSign = arg.getBoolean("isSign")
             body = arg.getString("body")
+            fileName = arg.getString("fileName")
 
         }
 
@@ -96,10 +120,55 @@ class NoteDetailsFragment : Fragment(), Injectable {
             Navigation.findNavController(binding.root).navigateUp()
         }
 
+        if (fileName != null) {
+            initMediaPlayer(fileName!!)
+            binding.seekbar.max = player!!.duration
+
+        }
+
+
+        binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (player != null) {
+                    player!!.seekTo(progress)
+                }
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+            }
+
+        })
+
+
+        binding.playBtn.setOnClickListener {
+            if (player != null){
+                player!!.start()
+                customHandler.postDelayed(runnable, 1000)
+            }
+
+        }
+
 
 
         return binding.root
     }
+
+    private fun initMediaPlayer(fileName: String) {
+        player = MediaPlayer().apply {
+            try {
+                setDataSource(fileName)
+                prepare()
+
+            } catch (e: IOException) {
+                Log.e("ListItem", "prepare() failed")
+
+            }
+        }
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

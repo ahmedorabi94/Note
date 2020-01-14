@@ -4,11 +4,14 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,6 +30,7 @@ import com.example.telekotlin.viewModels.ListItemViewModel
 import com.google.android.material.internal.NavigationMenu
 import io.github.yavski.fabspeeddial.FabSpeedDial
 import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStreamReader
 import javax.inject.Inject
 
@@ -287,6 +291,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
         val arg = Bundle()
         arg.putInt("row_id", note.id)
+        arg.putString("fileName",note.audioName)
 
         if (note.signature != null) {
             arg.putBoolean("isSign", true)
@@ -297,6 +302,11 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
 
     }
+
+    override fun onAudioClick(note: Note) {
+      //  startPlaying(note.audioName!!)
+    }
+
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
 

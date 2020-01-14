@@ -17,12 +17,16 @@ fun setImage(imageView: ImageView, note: Note) {
     } else {
         imageView.visibility = View.GONE
     }
-
-//    if (note.audioName != null) {
-//        imageView.visibility - View.VISIBLE
-//    } else {
-//        imageView.visibility = View.GONE
-//    }
-
-
 }
+
+
+@BindingAdapter("setAudioRecord")
+fun setAudioRecord(imageView: ImageView, note: Note) {
+    if (note.audioName != null) {
+        imageView.visibility = View.VISIBLE
+    } else {
+        imageView.visibility = View.GONE
+    }
+}
+
+
