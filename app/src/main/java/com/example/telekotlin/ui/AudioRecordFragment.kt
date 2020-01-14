@@ -75,6 +75,8 @@ class AudioRecordFragment : Fragment(), Injectable {
     }
 
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
