@@ -94,6 +94,10 @@ class AudioRecordFragment : Fragment() {
 
 
 
+
+
+
+
         binding.recordBtn.setOnClickListener {
 
             if (!isRecording) {
