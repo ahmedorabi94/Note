@@ -1,5 +1,6 @@
 package com.example.telekotlin.di
 
+import com.example.telekotlin.ui.AudioRecordFragment
 import com.example.telekotlin.ui.ListItemFragment
 import com.example.telekotlin.ui.NoteDetailsFragment
 import com.example.telekotlin.ui.SignatureFragment
@@ -19,4 +20,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contributeSignatureFragment(): SignatureFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeAudioRecordFragment(): AudioRecordFragment
 }

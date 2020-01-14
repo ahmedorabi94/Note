@@ -54,7 +54,8 @@ class MainRepository @Inject constructor(
             application.getString(R.string.lores_ipsum),
             application.getString(R.string.some_text),
             null,
-            AppUtils.getDate()
+            AppUtils.getDate(),
+            null
         )
 
         CoroutineScope(IO).launch {
@@ -69,7 +70,6 @@ class MainRepository @Inject constructor(
 
         return allNoteLiveData
     }
-
 
 
 }

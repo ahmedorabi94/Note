@@ -31,6 +31,8 @@ import java.io.InputStreamReader
 import javax.inject.Inject
 
 
+private const val REQUEST_CODE = 100
+
 class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuItemClickListener {
 
 
@@ -45,10 +47,8 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
     private lateinit var noteAdapter: NoteAdapter
 
-    private val REQUEST_CODE = 100
 
-
-    val clearPaint =
+    private val clearPaint =
         Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
 
     override fun onCreateView(
@@ -237,11 +237,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-//        binding.fab.setOnClickListener {
-//            showPopup(it)
-//           // setupPopupWindows(it)
-//        }
-
 
         return binding.root
     }
@@ -300,16 +295,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         Navigation.findNavController(binding.root)
             .navigate(R.id.action_listItemFragment_to_noteDetailsFragment, arg)
 
-
-    }
-
-    private fun showPopup(view: View) {
-
-        val popup = PopupMenu(context, view)
-        val inflater = popup.menuInflater
-        popup.setOnMenuItemClickListener(this)
-        inflater.inflate(R.menu.popup_menu, popup.menu)
-        popup.show()
 
     }
 

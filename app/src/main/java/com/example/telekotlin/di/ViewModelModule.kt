@@ -2,10 +2,7 @@ package com.example.telekotlin.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.telekotlin.viewModels.DetailViewModel
-import com.example.telekotlin.viewModels.ListItemViewModel
-import com.example.telekotlin.viewModels.SignatureViewModel
-import com.example.telekotlin.viewModels.TeleViewModelFactory
+import com.example.telekotlin.viewModels.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -29,6 +26,12 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SignatureViewModel::class)
     abstract fun bindSignatureViewModel(signatureViewModel: SignatureViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AudioRecordViewModel::class)
+    abstract fun bindAudioRecordViewModel(recordViewModel: AudioRecordViewModel): ViewModel
+
 
     @Binds
     abstract fun bindViewModelFactory(factory: TeleViewModelFactory): ViewModelProvider.Factory

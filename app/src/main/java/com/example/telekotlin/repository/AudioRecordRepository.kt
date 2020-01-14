@@ -11,19 +11,16 @@ import javax.inject.Singleton
 
 
 @Singleton
-class SignatureRepository @Inject constructor(private val dao: NoteDao) {
+class AudioRecordRepository @Inject constructor(private val noteDao: NoteDao) {
 
 
-    fun insertNote(title: String, body: String, signImage: ByteArray?) {
-
-        val note = Note(title, body, signImage,AppUtils.getDate(),null)
+    fun insertNote(title: String, body: String, fileName: String) {
+        val note = Note(title, body, null, AppUtils.getDate(), fileName)
 
         CoroutineScope(IO).launch {
-            dao.insert(note)
+            noteDao.insert(note)
         }
+
     }
-
-
-
 
 }

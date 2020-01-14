@@ -70,15 +70,15 @@
             android:id="@+id/userSignatureImageView"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
+            android:background="#ffffff"
             android:scaleType="fitCenter"
             android:visibility="gone"
-            android:layout_marginTop="8dp"
-            android:background="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setImage="@{note.signature}" />
+            app:setImage="@{note}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

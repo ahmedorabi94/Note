@@ -9,7 +9,8 @@ data class Note(
     val title: String,
     val body: String,
     val signature: ByteArray?,
-    val date: String
+    val date: String,
+    val audioName : String?
 
 ) {
 

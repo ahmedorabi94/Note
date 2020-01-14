@@ -10,52 +10,47 @@
         tools:context=".ui.AudioRecordFragment">
 
 
-        <Button
-            android:id="@+id/startRecordBtn"
-            android:layout_width="200dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="88dp"
-            android:text="Start Recording"
-            android:textAllCaps="false"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:hint="@string/add_title"
+            android:inputType="text"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/grey_font"
+            android:textColorHint="@color/grey_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <Button
-            android:id="@+id/stopRecordBtn"
+        <View
+            android:id="@+id/view"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Stop Recording"
-            app:layout_constraintEnd_toEndOf="@+id/startRecordBtn"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/startRecordBtn"
-            app:layout_constraintTop_toBottomOf="@+id/startRecordBtn" />
+            android:layout_height="1dp"
+            android:layout_marginTop="30dp"
+            android:background="#d0d0d0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ed_title" />
 
-        <Button
-            android:id="@+id/startPlayingBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="Start Playing"
-            app:layout_constraintEnd_toEndOf="@+id/startRecordBtn"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/startRecordBtn"
-            app:layout_constraintTop_toBottomOf="@+id/stopRecordBtn" />
 
         <TextView
             android:id="@+id/tvTimer"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
             android:gravity="center"
             android:text="00:00"
-            android:textSize="70sp"
+            android:textSize="50sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/startPlayingBtn" />
+            app:layout_constraintTop_toBottomOf="@+id/ed_title" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/recordBtn"
@@ -64,6 +59,7 @@
             android:layout_marginTop="20dp"
             android:background="@null"
             android:src="@drawable/ic_record_grey600_48dp"
+            app:layout_constraintEnd_toStartOf="@+id/tvTimer"
             app:layout_constraintStart_toStartOf="@+id/tvTimer"
             app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
 
@@ -74,7 +70,27 @@
             android:background="@null"
             android:src="@drawable/ic_play_grey600_48dp"
             app:layout_constraintEnd_toEndOf="@+id/tvTimer"
+            app:layout_constraintStart_toEndOf="@+id/tvTimer"
             app:layout_constraintTop_toTopOf="@+id/recordBtn" />
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:background="@null"
+            android:hint="Add note content"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="2000"
+            android:maxLines="15"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColor="@color/grey_font"
+            android:textColorHint="@color/grey_font"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recordBtn" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
