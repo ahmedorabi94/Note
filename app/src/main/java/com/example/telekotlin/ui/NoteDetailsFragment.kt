@@ -59,10 +59,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
             isSign = arg.getBoolean("isSign")
             body = arg.getString("body")
             fileName = arg.getString("fileName")
-
         }
-
-
     }
 
     override fun onCreateView(
