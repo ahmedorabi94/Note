@@ -46,12 +46,9 @@ class NoteDetailsFragment : Fragment(), Injectable {
                 binding.seekbar.progress = currentPosition
             }
             customHandler.postDelayed(this, 50)
-
         }
 
-
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
