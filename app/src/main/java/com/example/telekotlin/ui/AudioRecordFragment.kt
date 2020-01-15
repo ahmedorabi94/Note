@@ -88,8 +88,6 @@ class AudioRecordFragment : Fragment(), Injectable {
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(AudioRecordViewModel::class.java)
 
-        //  fileName = "${activity!!.externalCacheDir!!.absolutePath}/audiorecordtest.3gp"
-
         setHasOptionsMenu(true)
 
         ActivityCompat.requestPermissions(activity!!, permissions, REQUEST_RECORD_AUDIO_PERMISSION)
