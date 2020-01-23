@@ -51,16 +51,14 @@
             android:id="@+id/fabBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
+            android:background="@null"
+            app:fabBackgroundTint="#633309"
             app:fabGravity="bottom_end"
-            app:fabMenu="@menu/fab_menu_item"
-            app:miniFabBackgroundTint="@android:color/white"
-            app:miniFabDrawableTint="?attr/colorPrimaryDark"
-            app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
+            app:fabMenu="@menu/fab_menu_item" />
 
     </RelativeLayout>
 

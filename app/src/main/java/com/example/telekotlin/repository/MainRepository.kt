@@ -42,6 +42,7 @@ class MainRepository @Inject constructor(
 
     fun deleteTele(id: Int) {
 
+
         CoroutineScope(IO).launch {
             noteDao.deleteTele(id)
         }
