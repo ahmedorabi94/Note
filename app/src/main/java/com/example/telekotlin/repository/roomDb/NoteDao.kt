@@ -30,4 +30,12 @@ interface NoteDao {
     fun getTele(id: Int): LiveData<Note>
 
 
+    @Query("select * from tele where dateStr =:date")
+    fun getNotesWithDate(date: String): LiveData<List<Note>>
+
+
+    @Query("update tele set checked =:completed where id =:id")
+    suspend fun updateCompleteTask(id: Int, completed: Boolean)
+
+
 }

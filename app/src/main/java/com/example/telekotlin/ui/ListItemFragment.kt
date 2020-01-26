@@ -23,8 +23,11 @@ import com.example.telekotlin.databinding.FragmentListItemBinding
 import com.example.telekotlin.di.Injectable
 import com.example.telekotlin.repository.data.Note
 import com.example.telekotlin.viewModels.ListItemViewModel
+import com.github.jhonnyx2012.horizontalpicker.DatePickerListener
+import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker
 import com.google.android.material.internal.NavigationMenu
 import io.github.yavski.fabspeeddial.FabSpeedDial
+import org.joda.time.DateTime
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import javax.inject.Inject
@@ -32,7 +35,20 @@ import javax.inject.Inject
 
 private const val REQUEST_CODE = 100
 
-class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuItemClickListener {
+class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuItemClickListener,
+    DatePickerListener {
+    override fun completeTask(note: Note, isChecked: Boolean) {
+
+        Log.e("ListFragment", isChecked.toString())
+
+        if (isChecked) {
+            viewModel.completeTask(note,dateStr)
+        }
+
+
+
+        //  noteAdapter.notifyDataSetChanged()
+    }
 
 
     @Inject
@@ -46,6 +62,9 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
     private lateinit var noteAdapter: NoteAdapter
 
+    private lateinit var datePicker: HorizontalPicker
+
+    private var dateStr: String = ""
 
     private val clearPaint =
         Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
@@ -61,8 +80,18 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListItemViewModel::class.java)
 
+
+
         binding.lifecycleOwner = this
 
+
+        datePicker = binding.datePicker
+
+        datePicker
+            .setListener(this)
+            .init()
+
+        datePicker.setDate(DateTime())
 
         binding.fabBtn.setMenuListener(object : FabSpeedDial.MenuListener {
             override fun onMenuClosed() {
@@ -125,7 +154,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
         initRecyclerView()
 
-        noteAdapter = NoteAdapter(this)
+        noteAdapter = NoteAdapter(this, this)
         recyclerView.adapter = noteAdapter
 
 
@@ -133,11 +162,14 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
             Log.e("ListItem", "${it.size}")
 
             if (it.isEmpty()) {
-                binding.emptyView.visibility = View.VISIBLE
-            } else {
-                binding.emptyView.visibility = View.GONE
+                binding.emptyTextIcon.visibility = View.VISIBLE
+                binding.emptyTitleText.visibility = View.VISIBLE
 
+            } else {
+                binding.emptyTextIcon.visibility = View.GONE
+                binding.emptyTitleText.visibility = View.GONE
             }
+
             noteAdapter.submitList(it)
         })
 
@@ -237,12 +269,24 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
 
+
+
+
         return binding.root
     }
+
 
     private fun clearCanvas(c: Canvas?, left: Float, top: Float, right: Float, bottom: Float) {
         c?.drawRect(left, top, right, bottom, clearPaint)
     }
+
+
+    override fun onDateSelected(dateSelected: DateTime?) {
+        Log.e("ListFragment", dateSelected.toString().substring(0, 10))
+        dateStr = dateSelected.toString().substring(0, 10)
+        viewModel.setData(dateStr)
+    }
+
 
     private fun initRecyclerView() {
         recyclerView = binding.recyclerView

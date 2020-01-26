@@ -26,7 +26,13 @@ class MainRepository @Inject constructor(
 
 
     init {
-        getAllTeles()
+       // getAllTeles()
+    }
+
+
+
+     fun setDate(date: String){
+         allNoteLiveData =   noteDao.getNotesWithDate(date)
     }
 
     private fun getAllTeles() {
@@ -56,13 +62,22 @@ class MainRepository @Inject constructor(
             application.getString(R.string.some_text),
             null,
             AppUtils.getDate(),
-            null
+            null,
+            "",
+            false
         )
 
         CoroutineScope(IO).launch {
             noteDao.insert(tele)
         }
 
+    }
+
+
+    fun completeTask(note: Note){
+         CoroutineScope(IO).launch {
+             noteDao.updateCompleteTask(note.id,true)
+         }
     }
 
 

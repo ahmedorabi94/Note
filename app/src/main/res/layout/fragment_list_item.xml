@@ -1,66 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white_background"
-        android:padding="5dp">
+        android:background="@color/white_background">
+
+        <com.github.jhonnyx2012.horizontalpicker.HorizontalPicker
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="2dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/datePicker"
             tools:listitem="@layout/list_item" />
 
-        <!-- Empty view for the list -->
-        <RelativeLayout
-            android:id="@+id/empty_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
-            <ImageView
-                android:id="@+id/empty_text_icon"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_centerHorizontal="true"
-                android:background="@null"
-                android:contentDescription="@string/empty_icon"
-                android:scaleType="centerInside"
-                android:src="@drawable/texticon" />
-
-            <TextView
-                android:id="@+id/empty_title_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/empty_text_icon"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-medium"
-                android:paddingTop="10dp"
-                android:text="@string/there_is_no_text_found_add_some_text"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="@color/title_color" />
-
-
-        </RelativeLayout>
 
         <io.github.yavski.fabspeeddial.FabSpeedDial
             android:id="@+id/fabBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="1dp"
             android:background="@null"
             app:fabBackgroundTint="#633309"
             app:fabGravity="bottom_end"
-            app:fabMenu="@menu/fab_menu_item" />
+            app:fabMenu="@menu/fab_menu_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/empty_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:paddingTop="10dp"
+            android:text="@string/there_is_no_text_found_add_some_text"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/title_color"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/empty_text_icon" />
+
+        <ImageView
+            android:id="@+id/empty_text_icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@null"
+            android:contentDescription="@string/empty_icon"
+            android:scaleType="centerInside"
+            android:src="@drawable/texticon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintStart_toStartOf="@+id/recyclerView"
+            app:layout_constraintTop_toTopOf="@+id/datePicker" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </layout>

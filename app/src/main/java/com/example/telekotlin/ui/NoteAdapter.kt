@@ -2,13 +2,15 @@ package com.example.telekotlin.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.telekotlin.databinding.ListItemBinding
 import com.example.telekotlin.repository.data.Note
 
-class NoteAdapter(private val callback: NoteCallback) : ListAdapter<Note, NoteAdapter.MyViewHolder>(DiffCallback) {
+class NoteAdapter(private val callback: NoteCallback, private val lifecycleOwner: LifecycleOwner) :
+    ListAdapter<Note, NoteAdapter.MyViewHolder>(DiffCallback) {
 
 
     companion object DiffCallback : DiffUtil.ItemCallback<Note>() {
@@ -23,9 +25,10 @@ class NoteAdapter(private val callback: NoteCallback) : ListAdapter<Note, NoteAd
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-
+        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         binding.callback = callback
+
+
         return MyViewHolder(binding)
     }
 
@@ -34,20 +37,20 @@ class NoteAdapter(private val callback: NoteCallback) : ListAdapter<Note, NoteAd
         holder.bind(note)
     }
 
-
     class MyViewHolder(private var binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
 
         fun bind(note: Note) {
             binding.note = note
+            binding.executePendingBindings()
         }
 
 
     }
 
 
-    fun getNote(position : Int) : Note{
+    fun getNote(position: Int): Note {
         return getItem(position)
     }
 

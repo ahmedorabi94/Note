@@ -10,7 +10,9 @@ data class Note(
     val body: String,
     val signature: ByteArray?,
     val date: String,
-    val audioName : String?
+    val audioName: String?,
+    val dateStr: String,
+    var checked: Boolean
 
 ) {
 

@@ -82,6 +82,9 @@ class ReminderDialogFragment : DialogFragment() {
         val myFormat = "dd-MMM-yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.UK)
 
+
+
+
         Log.e("Reminder", sdf.format(myCalendar.time))
     }
 

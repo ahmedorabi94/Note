@@ -1,5 +1,6 @@
 package com.example.telekotlin.ui
 
+import android.app.DatePickerDialog
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -17,6 +18,8 @@ import com.example.telekotlin.databinding.FragmentNoteDetailsBinding
 import com.example.telekotlin.di.Injectable
 import com.example.telekotlin.viewModels.DetailViewModel
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -37,6 +40,8 @@ class NoteDetailsFragment : Fragment(), Injectable {
     private var player: MediaPlayer? = null
 
     private val customHandler: Handler = Handler()
+
+    private var dateStr : String = ""
 
     private val runnable = object : Runnable {
 
@@ -145,6 +150,25 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
         }
 
+        val calender = Calendar.getInstance()
+
+        val datePickerOnDataSetListener =
+            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                calender.set(Calendar.YEAR, year)
+                calender.set(Calendar.MONTH, monthOfYear)
+                calender.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                updateLabel(calender)
+            }
+
+
+        binding.setDateBtn.setOnClickListener {
+            DatePickerDialog(
+                activity!!, datePickerOnDataSetListener, calender
+                    .get(Calendar.YEAR), calender.get(Calendar.MONTH),
+                calender.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
 
 
         return binding.root
@@ -197,11 +221,20 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
     private fun saveNote(title: String, body: String) {
         if (rowId == -1 || this.body != null) {
-            viewModel.insertNewNote(title, body)
+            viewModel.insertNewNote(title, body , dateStr)
 
         } else {
             viewModel.updateNote(rowId, title, body)
         }
+    }
+
+    private fun updateLabel(myCalendar: Calendar) {
+        val myFormat = "yyyy-MM-dd"
+        val sdf = SimpleDateFormat(myFormat, Locale.UK)
+
+        dateStr = sdf.format(myCalendar.time)
+
+        Log.e("Reminder", dateStr)
     }
 
 
