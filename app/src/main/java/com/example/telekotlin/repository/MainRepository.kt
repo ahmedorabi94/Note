@@ -17,7 +17,7 @@ class MainRepository @Inject constructor(
 ) {
 
 
-    private lateinit var allNoteLiveData: LiveData<List<Note>>
+    private var allNoteLiveData: LiveData<List<Note>>? = null
 
 //    private val _allTele = MutableLiveData<List<Note>>()
 //
@@ -26,13 +26,14 @@ class MainRepository @Inject constructor(
 
 
     init {
-       // getAllTeles()
+        // getAllTeles()
     }
 
 
+    fun setDate(date: String) {
 
-     fun setDate(date: String){
-         allNoteLiveData =   noteDao.getNotesWithDate(date)
+        allNoteLiveData = noteDao.getNotesWithDate(date)
+
     }
 
 //    private fun getAllTeles() {
@@ -74,17 +75,17 @@ class MainRepository @Inject constructor(
     }
 
 
-    suspend fun completeTask(note: Note){
-         CoroutineScope(IO).launch {
-             noteDao.updateCompleteTask(note.id,true)
-         }
+    suspend fun completeTask(note: Note) {
+        CoroutineScope(IO).launch {
+            noteDao.updateCompleteTask(note.id, true)
+        }
     }
 
 
     fun getAsLiveData(): LiveData<List<Note>> {
 
 
-        return allNoteLiveData
+        return allNoteLiveData!!
     }
 
 

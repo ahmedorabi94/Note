@@ -11,6 +11,7 @@ import android.view.*
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -49,6 +50,15 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
     }
 
 
+    private val thread = Thread(Runnable {
+        Thread.sleep(900)
+
+        activity!!.runOnUiThread {
+            noteAdapter.notifyItemChanged(position)
+        }
+    })
+
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -63,6 +73,8 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
     private lateinit var datePicker: HorizontalPicker
 
     private var dateStr: String = ""
+
+    private var position: Int = -1
 
     private val clearPaint =
         Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
@@ -79,9 +91,40 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListItemViewModel::class.java)
 
         binding.viewmodel = viewModel
+        binding.invalidateAll()
+        //    binding.executePendingBindings()
 
         activity!!.title = "Notes"
         setHasOptionsMenu(true)
+
+
+        viewModel.position.observe(this.viewLifecycleOwner, Observer {
+
+
+            Thread(Runnable {
+                Thread.sleep(100)
+
+                activity!!.runOnUiThread {
+                    noteAdapter.notifyItemChanged(it)
+                }
+            }).start()
+
+
+            //  position = it
+
+            //  thread.start()
+
+            //            recyclerView.addOnLayoutChangeListener { p0, p1, p2, p3, p4, p5, p6, p7, p8 ->
+//                noteAdapter.notifyItemChanged(it )
+//            }
+
+            // activity!!.runOnUiThread { recyclerView.adapter!!.notifyItemChanged(it) }
+
+//            recyclerView.post {
+//                noteAdapter.notifyItemChanged(it)
+//            }
+        })
+
 
 
 
@@ -281,8 +324,9 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         val viewmodel = binding.viewmodel
 
         if (viewmodel != null) {
+            recyclerView = binding.recyclerView
             noteAdapter = NoteAdapter(viewmodel, this, this.viewLifecycleOwner)
-            binding.recyclerView.adapter = noteAdapter
+            recyclerView.adapter = noteAdapter
 
         }
 
@@ -451,6 +495,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         reader.close()
         return stringBuilder.toString()
     }
+
 
 
 }

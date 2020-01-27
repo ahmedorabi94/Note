@@ -72,8 +72,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:checked="@{note.checked}"
-                android:onClick="@{(view) -> viewmodel.completeTask(note,((CompoundButton)view).isChecked())}"
+                android:onClick="@{(view) -> viewmodel.completeTask(note,((CompoundButton)view).isChecked(),position)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

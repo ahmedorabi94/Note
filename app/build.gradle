@@ -70,6 +70,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0"
+
 
     // Retrofit for networking
     implementation "com.squareup.retrofit2:retrofit:2.5.0"
@@ -81,10 +83,10 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
 
     // Room database
-    //  implementation "androidx.room:room-runtime:2.2.2"
+     implementation "androidx.room:room-runtime:2.2.3"
     //  kapt "androidx.room:room-compiler:2.2.2"
-    implementation 'androidx.room:room-ktx:2.2.2'
-    kapt "androidx.room:room-compiler:2.2.2"
+    implementation 'androidx.room:room-ktx:2.2.3'
+    kapt "androidx.room:room-compiler:2.2.3"
 
 
     kapt "androidx.databinding:databinding-compiler:3.5.3"
@@ -98,7 +100,7 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.23.2'
 
 
-    def nav_version = "2.1.0"
+    def nav_version = "2.2.0"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

@@ -24,7 +24,7 @@ class NoteAdapter(
         }
 
         override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-            return oldItem.title == newItem.title && oldItem.body == newItem.body
+            return oldItem == newItem
         }
     }
 
@@ -54,8 +54,9 @@ class NoteAdapter(
         ) {
             binding.viewmodel = viewModel
             binding.note = note
-          //  binding.position = position
-           // binding.lifecycleOwner = lifecycleOwner
+             binding.position = position
+            binding.lifecycleOwner = lifecycleOwner
+            binding.invalidateAll()
             binding.executePendingBindings()
         }
 
