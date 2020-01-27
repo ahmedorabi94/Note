@@ -8,8 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.telekotlin.databinding.ListItemBinding
 import com.example.telekotlin.repository.data.Note
+import com.example.telekotlin.viewModels.ListItemViewModel
 
-class NoteAdapter(private val callback: NoteCallback, private val lifecycleOwner: LifecycleOwner) :
+class NoteAdapter(
+    private val viewModel: ListItemViewModel,
+    private val callback: NoteCallback,
+    private val lifecycleOwner: LifecycleOwner
+) :
     ListAdapter<Note, NoteAdapter.MyViewHolder>(DiffCallback) {
 
 
@@ -34,18 +39,25 @@ class NoteAdapter(private val callback: NoteCallback, private val lifecycleOwner
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val note = getItem(position)
-        holder.bind(note)
+        holder.bind(note, lifecycleOwner, position, viewModel)
     }
 
     class MyViewHolder(private var binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
 
-        fun bind(note: Note) {
+        fun bind(
+            note: Note,
+            lifecycleOwner: LifecycleOwner,
+            position: Int,
+            viewModel: ListItemViewModel
+        ) {
+            binding.viewmodel = viewModel
             binding.note = note
+          //  binding.position = position
+           // binding.lifecycleOwner = lifecycleOwner
             binding.executePendingBindings()
         }
-
 
     }
 
@@ -53,5 +65,6 @@ class NoteAdapter(private val callback: NoteCallback, private val lifecycleOwner
     fun getNote(position: Int): Note {
         return getItem(position)
     }
+
 
 }

@@ -35,9 +35,9 @@ class MainRepository @Inject constructor(
          allNoteLiveData =   noteDao.getNotesWithDate(date)
     }
 
-    private fun getAllTeles() {
-        allNoteLiveData = noteDao.getAllTele()
-    }
+//    private fun getAllTeles() {
+//        allNoteLiveData = noteDao.getAllTele()
+//    }
 
 
     fun deleteAlltele() {
@@ -74,7 +74,7 @@ class MainRepository @Inject constructor(
     }
 
 
-    fun completeTask(note: Note){
+    suspend fun completeTask(note: Note){
          CoroutineScope(IO).launch {
              noteDao.updateCompleteTask(note.id,true)
          }

@@ -11,12 +11,9 @@ import android.view.*
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentListItemBinding
@@ -37,17 +34,18 @@ private const val REQUEST_CODE = 100
 
 class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuItemClickListener,
     DatePickerListener {
-    override fun completeTask(note: Note, isChecked: Boolean) {
+    override fun completeTask(note: Note, isChecked: Boolean, position: Int) {
 
-        Log.e("ListFragment", isChecked.toString())
+//        Log.e("ListFragment", isChecked.toString())
+//
+//        if (isChecked) {
+//           // viewModel.completeTask(note, dateStr)
+//        }
+//
+//
+//        noteAdapter.notifyItemChanged(position)
+//
 
-        if (isChecked) {
-            viewModel.completeTask(note,dateStr)
-        }
-
-
-
-        //  noteAdapter.notifyDataSetChanged()
     }
 
 
@@ -80,18 +78,12 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListItemViewModel::class.java)
 
+        binding.viewmodel = viewModel
+
+        activity!!.title = "Notes"
+        setHasOptionsMenu(true)
 
 
-        binding.lifecycleOwner = this
-
-
-        datePicker = binding.datePicker
-
-        datePicker
-            .setListener(this)
-            .init()
-
-        datePicker.setDate(DateTime())
 
         binding.fabBtn.setMenuListener(object : FabSpeedDial.MenuListener {
             override fun onMenuClosed() {
@@ -147,132 +139,153 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         val backgroundColor = Color.parseColor("#f44336")
 
 
-
-        activity!!.title = "Notes"
-
-        setHasOptionsMenu(true)
-
-        initRecyclerView()
-
-        noteAdapter = NoteAdapter(this, this)
-        recyclerView.adapter = noteAdapter
-
-
-        viewModel.getAllTeleLiveData().observe(this, Observer {
-            Log.e("ListItem", "${it.size}")
-
-            if (it.isEmpty()) {
-                binding.emptyTextIcon.visibility = View.VISIBLE
-                binding.emptyTitleText.visibility = View.VISIBLE
-
-            } else {
-                binding.emptyTextIcon.visibility = View.GONE
-                binding.emptyTitleText.visibility = View.GONE
-            }
-
-            noteAdapter.submitList(it)
-        })
+//        viewModel.getAllTeleLiveData().observe(this, Observer {
+//            Log.e("ListItem", "${it.size}")
+//
+//            if (it.isEmpty()) {
+//                binding.emptyTextIcon.visibility = View.VISIBLE
+//                binding.emptyTitleText.visibility = View.VISIBLE
+//
+//            } else {
+//                binding.emptyTextIcon.visibility = View.GONE
+//                binding.emptyTitleText.visibility = View.GONE
+//            }
+//
+//            noteAdapter.submitList(it)
+//        })
 
 
-        val itemTouchHelperCallback =
-            object : ItemTouchHelper.SimpleCallback(
-                0, ItemTouchHelper.LEFT
-                        or ItemTouchHelper.RIGHT
-            ) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return false
-                }
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    viewModel.deleteTele(noteAdapter.getNote(viewHolder.adapterPosition).id)
-                }
-
-                override fun onChildDraw(
-                    c: Canvas,
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    dX: Float,
-                    dY: Float,
-                    actionState: Int,
-                    isCurrentlyActive: Boolean
-                ) {
-
-                    val itemView = viewHolder.itemView
-                    val itemHeight = itemView.bottom - itemView.top
-                    val isCanceled = dX == 0f && !isCurrentlyActive
-
-                    if (isCanceled) {
-                        clearCanvas(
-                            c,
-                            itemView.right + dX,
-                            itemView.top.toFloat(),
-                            itemView.right.toFloat(),
-                            itemView.bottom.toFloat()
-                        )
-                        super.onChildDraw(
-                            c,
-                            recyclerView,
-                            viewHolder,
-                            dX,
-                            dY,
-                            actionState,
-                            isCurrentlyActive
-                        )
-                        return
-                    }
-
-                    // Draw the red delete background
-                    background.color = backgroundColor
-                    background.setBounds(
-                        itemView.right + dX.toInt(),
-                        itemView.top,
-                        itemView.right,
-                        itemView.bottom
-                    )
-                    background.draw(c)
-
-                    // Calculate position of delete icon
-                    val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight) / 2
-                    val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
-                    val deleteIconLeft = itemView.right - deleteIconMargin - intrinsicWidth
-                    val deleteIconRight = itemView.right - deleteIconMargin
-                    val deleteIconBottom = deleteIconTop + intrinsicHeight
-
-                    // Draw the delete icon
-                    deleteIcon.setBounds(
-                        deleteIconLeft,
-                        deleteIconTop,
-                        deleteIconRight,
-                        deleteIconBottom
-                    )
-                    deleteIcon.draw(c)
-
-                    super.onChildDraw(
-                        c,
-                        recyclerView,
-                        viewHolder,
-                        dX,
-                        dY,
-                        actionState,
-                        isCurrentlyActive
-                    )
-
-
-                }
-            }
-
-        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-
-
-
+//        val itemTouchHelperCallback =
+//            object : ItemTouchHelper.SimpleCallback(
+//                0, ItemTouchHelper.LEFT
+//                        or ItemTouchHelper.RIGHT
+//            ) {
+//                override fun onMove(
+//                    recyclerView: RecyclerView,
+//                    viewHolder: RecyclerView.ViewHolder,
+//                    target: RecyclerView.ViewHolder
+//                ): Boolean {
+//                    return false
+//                }
+//
+//                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                    viewModel.deleteTele(noteAdapter.getNote(viewHolder.adapterPosition).id)
+//                }
+//
+//                override fun onChildDraw(
+//                    c: Canvas,
+//                    recyclerView: RecyclerView,
+//                    viewHolder: RecyclerView.ViewHolder,
+//                    dX: Float,
+//                    dY: Float,
+//                    actionState: Int,
+//                    isCurrentlyActive: Boolean
+//                ) {
+//
+//                    val itemView = viewHolder.itemView
+//                    val itemHeight = itemView.bottom - itemView.top
+//                    val isCanceled = dX == 0f && !isCurrentlyActive
+//
+//                    if (isCanceled) {
+//                        clearCanvas(
+//                            c,
+//                            itemView.right + dX,
+//                            itemView.top.toFloat(),
+//                            itemView.right.toFloat(),
+//                            itemView.bottom.toFloat()
+//                        )
+//                        super.onChildDraw(
+//                            c,
+//                            recyclerView,
+//                            viewHolder,
+//                            dX,
+//                            dY,
+//                            actionState,
+//                            isCurrentlyActive
+//                        )
+//                        return
+//                    }
+//
+//                    // Draw the red delete background
+//                    background.color = backgroundColor
+//                    background.setBounds(
+//                        itemView.right + dX.toInt(),
+//                        itemView.top,
+//                        itemView.right,
+//                        itemView.bottom
+//                    )
+//                    background.draw(c)
+//
+//                    // Calculate position of delete icon
+//                    val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight) / 2
+//                    val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
+//                    val deleteIconLeft = itemView.right - deleteIconMargin - intrinsicWidth
+//                    val deleteIconRight = itemView.right - deleteIconMargin
+//                    val deleteIconBottom = deleteIconTop + intrinsicHeight
+//
+//                    // Draw the delete icon
+//                    deleteIcon.setBounds(
+//                        deleteIconLeft,
+//                        deleteIconTop,
+//                        deleteIconRight,
+//                        deleteIconBottom
+//                    )
+//                    deleteIcon.draw(c)
+//
+//                    super.onChildDraw(
+//                        c,
+//                        recyclerView,
+//                        viewHolder,
+//                        dX,
+//                        dY,
+//                        actionState,
+//                        isCurrentlyActive
+//                    )
+//
+//
+//                }
+//            }
+//
+//        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+//        itemTouchHelper.attachToRecyclerView(recyclerView)
+//
+//
 
 
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        setAdapter()
+        setupDatePicker()
+
+    }
+
+
+    private fun setupDatePicker() {
+        datePicker = binding.datePicker
+
+        datePicker
+            .setListener(this)
+            .init()
+
+        datePicker.setDate(DateTime())
+    }
+
+
+    private fun setAdapter() {
+
+        val viewmodel = binding.viewmodel
+
+        if (viewmodel != null) {
+            noteAdapter = NoteAdapter(viewmodel, this, this.viewLifecycleOwner)
+            binding.recyclerView.adapter = noteAdapter
+
+        }
+
     }
 
 
@@ -288,15 +301,15 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
     }
 
 
-    private fun initRecyclerView() {
-        recyclerView = binding.recyclerView
-        recyclerView.setHasFixedSize(true)
-        // recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-
-        val linearLayout = LinearLayoutManager(activity)
-        recyclerView.layoutManager = linearLayout
-    }
-
+//    private fun initRecyclerView() {
+//        recyclerView = binding.recyclerView
+//        recyclerView.setHasFixedSize(true)
+//        // recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+//
+//        val linearLayout = LinearLayoutManager(activity)
+//        recyclerView.layoutManager = linearLayout
+//    }
+//
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

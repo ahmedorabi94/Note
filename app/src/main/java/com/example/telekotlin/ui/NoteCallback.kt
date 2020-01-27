@@ -9,5 +9,5 @@ interface NoteCallback {
     fun onAudioClick(note: Note)
 
 
-    fun completeTask(note: Note, isChecked: Boolean)
+    fun completeTask(note: Note, isChecked: Boolean , position : Int)
 }

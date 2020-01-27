@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "tele")
-data class Note(
+data class Note constructor(
     val title: String,
     val body: String,
     val signature: ByteArray?,

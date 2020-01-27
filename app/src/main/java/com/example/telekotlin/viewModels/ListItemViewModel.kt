@@ -1,11 +1,9 @@
 package com.example.telekotlin.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.telekotlin.repository.MainRepository
 import com.example.telekotlin.repository.data.Note
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -13,20 +11,62 @@ class ListItemViewModel @Inject constructor(private val repo: MainRepository) : 
 
     private val dateStr = MutableLiveData<String>()
 
+    private val _forceUpdate = MutableLiveData<Boolean>()
 
     //  private var allNoteLiveData: LiveData<List<Note>> = repo.getAsLiveData()
 
 
-    private var allNoteLiveData: LiveData<List<Note>> = Transformations.switchMap(dateStr) {
-        repo.getAsLiveData()
+     val tasks: LiveData<List<Note>> = _forceUpdate.switchMap { forceUpdate ->
+
+        // Log.e("ViewModelData", dateStr.value!!)
+
+        if (forceUpdate) {
+            viewModelScope.launch {
+                repo.setDate(dateStr.value!!)
+
+            }
+            //  Log.e("ViewModelData", dateStr.toString())
+        }
+
+       // repo.getAsLiveData()
+
+
+        repo.getAsLiveData().switchMap {
+            setTASSS(it)
+
+        }
     }
 
+  //  val tasks: LiveData<List<Note>> = _tasks
 
+
+    private fun setTASSS(tasksResult: List<Note>): LiveData<List<Note>> {
+
+        val result = MutableLiveData<List<Note>>()
+
+        viewModelScope.launch {
+            result.value = repo.getAsLiveData().value
+        }
+
+        return result
+    }
+
+//    private var allNoteLiveData: LiveData<List<Note>> = Transformations.switchMap(dateStr) {
+//        repo.getAsLiveData()
+//    }
 
 
     fun setData(date: String) {
-        repo.setDate(date)
+        //  Log.e("ViewModelData", dateStr.value!!)
+
+//        repo.setDate(date)
+//        dateStr.value = date
+
+
         dateStr.value = date
+        _forceUpdate.value = true
+
+
     }
 
 
@@ -43,16 +83,34 @@ class ListItemViewModel @Inject constructor(private val repo: MainRepository) : 
     }
 
 
-    fun completeTask(note: Note , date: String) {
-        repo.completeTask(note)
-        setData(date)
-      //  dateStr.value = date
+//    fun completeTask(note: Note, date: String) {
+//        CoroutineScope(IO).launch {
+//            repo.completeTask(note)
+//
+//        }
+//
+//        repo.setDate(date)
+//        dateStr.value = date
+//        //  dateStr.value = date
+//    }
+
+
+    fun completeTask(note: Note, completed: Boolean) {
+        viewModelScope.launch {
+            if (completed) {
+                repo.completeTask(note)
+            }
+        }
+
+        _forceUpdate.value = true
+
+
     }
 
 
-    fun getAllTeleLiveData(): LiveData<List<Note>> {
-        return allNoteLiveData
-    }
+//    fun getTasks(): LiveData<List<Note>> {
+//        return _tasks
+//    }
 
 
 }

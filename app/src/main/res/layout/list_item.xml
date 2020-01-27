@@ -8,6 +8,15 @@
         <import type="android.widget.CompoundButton" />
 
         <variable
+            name="viewmodel"
+            type="com.example.telekotlin.viewModels.ListItemViewModel" />
+
+        <variable
+            name="position"
+            type="Integer" />
+
+
+        <variable
             name="note"
             type="com.example.telekotlin.repository.data.Note" />
 
@@ -64,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:checked="@{note.checked}"
-                android:onClick="@{(view) -> callback.completeTask(note,((CompoundButton)view).isChecked())}"
+                android:onClick="@{(view) -> viewmodel.completeTask(note,((CompoundButton)view).isChecked())}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

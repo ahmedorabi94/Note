@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.example.telekotlin.viewModels.ListItemViewModel" />
+    </data>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,10 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="6dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/datePicker"
+            app:setItems="@{viewmodel.tasks}"
             tools:listitem="@layout/list_item" />
 
 
@@ -42,32 +52,41 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
-            android:id="@+id/empty_title_text"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-medium"
-            android:paddingTop="10dp"
-            android:text="@string/there_is_no_text_found_add_some_text"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="@color/title_color"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/empty_text_icon" />
-
-        <ImageView
-            android:id="@+id/empty_text_icon"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@null"
-            android:contentDescription="@string/empty_icon"
-            android:scaleType="centerInside"
-            android:src="@drawable/texticon"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
-            app:layout_constraintStart_toStartOf="@+id/recyclerView"
-            app:layout_constraintTop_toTopOf="@+id/datePicker" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recyclerView"
+            app:setVisible="@{viewmodel.tasks}">
+
+            <ImageView
+                android:id="@+id/empty_text_icon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:contentDescription="@string/empty_icon"
+                android:scaleType="centerInside"
+                android:src="@drawable/texticon" />
+
+            <TextView
+                android:id="@+id/empty_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:paddingTop="10dp"
+                android:text="@string/there_is_no_text_found_add_some_text"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/title_color" />
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
