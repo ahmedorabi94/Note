@@ -81,6 +81,12 @@ class MainRepository @Inject constructor(
         }
     }
 
+    suspend fun unCompleteTask(note: Note){
+        CoroutineScope(IO).launch {
+            noteDao.updateCompleteTask(note.id, false)
+        }
+    }
+
 
     fun getAsLiveData(): LiveData<List<Note>> {
 

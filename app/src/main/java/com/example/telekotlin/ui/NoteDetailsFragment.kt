@@ -1,13 +1,13 @@
 package com.example.telekotlin.ui
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.*
-import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -41,19 +41,19 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
     private val customHandler: Handler = Handler()
 
-    private var dateStr : String = ""
+    private var dateStr: String = ""
 
-    private val runnable = object : Runnable {
-
-        override fun run() {
-            if (player != null) {
-                val currentPosition = player!!.currentPosition
-                binding.seekbar.progress = currentPosition
-            }
-            customHandler.postDelayed(this, 50)
-        }
-
-    }
+//    private val runnable = object : Runnable {
+//
+//        override fun run() {
+//            if (player != null) {
+//                val currentPosition = player!!.currentPosition
+//                binding.seekbar.progress = currentPosition
+//            }
+//            customHandler.postDelayed(this, 50)
+//        }
+//
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +92,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
             if (body != null) {
                 binding.edBody.setText(body)
             } else {
-                viewModel.getNoteLiveData().observe(this, Observer {
+                viewModel.getNoteLiveData().observe(this.viewLifecycleOwner, Observer {
                     Log.e("NoteDetail", it.body)
 
                     binding.edTitle.setText(it.title)
@@ -119,36 +119,36 @@ class NoteDetailsFragment : Fragment(), Injectable {
             Navigation.findNavController(binding.root).navigateUp()
         }
 
-        if (fileName != null) {
-            initMediaPlayer(fileName!!)
-            binding.seekbar.max = player!!.duration
-
-        }
-
-
-        binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (player != null) {
-                    player!!.seekTo(progress)
-                }
-            }
-
-            override fun onStartTrackingTouch(p0: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(p0: SeekBar?) {
-            }
-
-        })
+//        if (fileName != null) {
+//            initMediaPlayer(fileName!!)
+//            binding.seekbar.max = player!!.duration
+//
+//        }
 
 
-        binding.playBtn.setOnClickListener {
-            if (player != null){
-                player!!.start()
-                customHandler.postDelayed(runnable, 1000)
-            }
+//        binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
+//                if (player != null) {
+//                    player!!.seekTo(progress)
+//                }
+//            }
+//
+//            override fun onStartTrackingTouch(p0: SeekBar?) {
+//            }
+//
+//            override fun onStopTrackingTouch(p0: SeekBar?) {
+//            }
+//
+//        })
 
-        }
+
+//        binding.playBtn.setOnClickListener {
+//            if (player != null){
+//                player!!.start()
+//                customHandler.postDelayed(runnable, 1000)
+//            }
+//
+//        }
 
         val calender = Calendar.getInstance()
 
@@ -161,7 +161,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
             }
 
 
-        binding.setDateBtn.setOnClickListener {
+        binding.dateImage.setOnClickListener {
             DatePickerDialog(
                 activity!!, datePickerOnDataSetListener, calender
                     .get(Calendar.YEAR), calender.get(Calendar.MONTH),
@@ -170,8 +170,36 @@ class NoteDetailsFragment : Fragment(), Injectable {
         }
 
 
+        binding.timeImage.setOnClickListener {
+
+            val calender = Calendar.getInstance()
+            val timeSetLisener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+                calender.set(Calendar.HOUR_OF_DAY, hour)
+                calender.set(Calendar.MINUTE, minute)
+                updateTime(calender)
+
+            }
+
+            TimePickerDialog(
+                context,
+                timeSetLisener,
+                calender.get(Calendar.HOUR_OF_DAY),
+                calender.get(Calendar.MINUTE),
+                true
+            ).show()
+
+        }
+
+
 
         return binding.root
+    }
+
+
+    private fun updateTime(myCalendar: Calendar) {
+        val time: String = SimpleDateFormat("HH:mm a", Locale.UK).format(myCalendar.time)
+        binding.tvTime.text = time
+        Log.e("Reminder", time)
     }
 
     private fun initMediaPlayer(fileName: String) {
@@ -221,7 +249,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
     private fun saveNote(title: String, body: String) {
         if (rowId == -1 || this.body != null) {
-            viewModel.insertNewNote(title, body , dateStr)
+            viewModel.insertNewNote(title, body, dateStr)
 
         } else {
             viewModel.updateNote(rowId, title, body)
@@ -230,9 +258,14 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
     private fun updateLabel(myCalendar: Calendar) {
         val myFormat = "yyyy-MM-dd"
+        val myFormat2 = "dd MMMM yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.UK)
 
+        val sdf2 = SimpleDateFormat(myFormat2, Locale.UK)
+
         dateStr = sdf.format(myCalendar.time)
+
+        binding.tvDate.text = sdf2.format(myCalendar.time)
 
         Log.e("Reminder", dateStr)
     }

@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentListItemBinding
@@ -37,26 +38,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
     DatePickerListener {
     override fun completeTask(note: Note, isChecked: Boolean, position: Int) {
 
-//        Log.e("ListFragment", isChecked.toString())
-//
-//        if (isChecked) {
-//           // viewModel.completeTask(note, dateStr)
-//        }
-//
-//
-//        noteAdapter.notifyItemChanged(position)
-//
-
     }
-
-
-    private val thread = Thread(Runnable {
-        Thread.sleep(900)
-
-        activity!!.runOnUiThread {
-            noteAdapter.notifyItemChanged(position)
-        }
-    })
 
 
     @Inject
@@ -74,7 +56,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
     private var dateStr: String = ""
 
-    private var position: Int = -1
 
     private val clearPaint =
         Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
@@ -92,7 +73,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
         binding.viewmodel = viewModel
         binding.invalidateAll()
-        //    binding.executePendingBindings()
 
         activity!!.title = "Notes"
         setHasOptionsMenu(true)
@@ -108,11 +88,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
                     noteAdapter.notifyItemChanged(it)
                 }
             }).start()
-
-
-            //  position = it
-
-            //  thread.start()
 
             //            recyclerView.addOnLayoutChangeListener { p0, p1, p2, p3, p4, p5, p6, p7, p8 ->
 //                noteAdapter.notifyItemChanged(it )
@@ -174,127 +149,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         })
 
 
-        val deleteIcon =
-            ContextCompat.getDrawable(context!!, R.drawable.ic_delete_grey600_24dp)
-        val intrinsicWidth = deleteIcon!!.intrinsicWidth
-        val intrinsicHeight = deleteIcon.intrinsicHeight
-        val background = ColorDrawable()
-        val backgroundColor = Color.parseColor("#f44336")
-
-
-//        viewModel.getAllTeleLiveData().observe(this, Observer {
-//            Log.e("ListItem", "${it.size}")
-//
-//            if (it.isEmpty()) {
-//                binding.emptyTextIcon.visibility = View.VISIBLE
-//                binding.emptyTitleText.visibility = View.VISIBLE
-//
-//            } else {
-//                binding.emptyTextIcon.visibility = View.GONE
-//                binding.emptyTitleText.visibility = View.GONE
-//            }
-//
-//            noteAdapter.submitList(it)
-//        })
-
-
-//        val itemTouchHelperCallback =
-//            object : ItemTouchHelper.SimpleCallback(
-//                0, ItemTouchHelper.LEFT
-//                        or ItemTouchHelper.RIGHT
-//            ) {
-//                override fun onMove(
-//                    recyclerView: RecyclerView,
-//                    viewHolder: RecyclerView.ViewHolder,
-//                    target: RecyclerView.ViewHolder
-//                ): Boolean {
-//                    return false
-//                }
-//
-//                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                    viewModel.deleteTele(noteAdapter.getNote(viewHolder.adapterPosition).id)
-//                }
-//
-//                override fun onChildDraw(
-//                    c: Canvas,
-//                    recyclerView: RecyclerView,
-//                    viewHolder: RecyclerView.ViewHolder,
-//                    dX: Float,
-//                    dY: Float,
-//                    actionState: Int,
-//                    isCurrentlyActive: Boolean
-//                ) {
-//
-//                    val itemView = viewHolder.itemView
-//                    val itemHeight = itemView.bottom - itemView.top
-//                    val isCanceled = dX == 0f && !isCurrentlyActive
-//
-//                    if (isCanceled) {
-//                        clearCanvas(
-//                            c,
-//                            itemView.right + dX,
-//                            itemView.top.toFloat(),
-//                            itemView.right.toFloat(),
-//                            itemView.bottom.toFloat()
-//                        )
-//                        super.onChildDraw(
-//                            c,
-//                            recyclerView,
-//                            viewHolder,
-//                            dX,
-//                            dY,
-//                            actionState,
-//                            isCurrentlyActive
-//                        )
-//                        return
-//                    }
-//
-//                    // Draw the red delete background
-//                    background.color = backgroundColor
-//                    background.setBounds(
-//                        itemView.right + dX.toInt(),
-//                        itemView.top,
-//                        itemView.right,
-//                        itemView.bottom
-//                    )
-//                    background.draw(c)
-//
-//                    // Calculate position of delete icon
-//                    val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight) / 2
-//                    val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
-//                    val deleteIconLeft = itemView.right - deleteIconMargin - intrinsicWidth
-//                    val deleteIconRight = itemView.right - deleteIconMargin
-//                    val deleteIconBottom = deleteIconTop + intrinsicHeight
-//
-//                    // Draw the delete icon
-//                    deleteIcon.setBounds(
-//                        deleteIconLeft,
-//                        deleteIconTop,
-//                        deleteIconRight,
-//                        deleteIconBottom
-//                    )
-//                    deleteIcon.draw(c)
-//
-//                    super.onChildDraw(
-//                        c,
-//                        recyclerView,
-//                        viewHolder,
-//                        dX,
-//                        dY,
-//                        actionState,
-//                        isCurrentlyActive
-//                    )
-//
-//
-//                }
-//            }
-//
-//        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-//        itemTouchHelper.attachToRecyclerView(recyclerView)
-//
-//
-
-
         return binding.root
     }
 
@@ -304,6 +158,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         binding.lifecycleOwner = this.viewLifecycleOwner
         setAdapter()
         setupDatePicker()
+        setupRecyclerView()
 
     }
 
@@ -320,15 +175,122 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
 
     private fun setAdapter() {
+        recyclerView = binding.recyclerView
 
         val viewmodel = binding.viewmodel
 
         if (viewmodel != null) {
-            recyclerView = binding.recyclerView
             noteAdapter = NoteAdapter(viewmodel, this, this.viewLifecycleOwner)
             recyclerView.adapter = noteAdapter
 
         }
+
+    }
+
+    private fun setupRecyclerView() {
+
+
+        val deleteIcon =
+            ContextCompat.getDrawable(context!!, R.drawable.ic_delete_grey600_24dp)
+        val intrinsicWidth = deleteIcon!!.intrinsicWidth
+        val intrinsicHeight = deleteIcon.intrinsicHeight
+        val background = ColorDrawable()
+        val backgroundColor = Color.parseColor("#f44336")
+
+        val itemTouchHelperCallback =
+            object : ItemTouchHelper.SimpleCallback(
+                0, ItemTouchHelper.LEFT
+                        or ItemTouchHelper.RIGHT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    viewModel.deleteTele(noteAdapter.getNote(viewHolder.adapterPosition).id)
+                }
+
+                override fun onChildDraw(
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
+                ) {
+
+                    val itemView = viewHolder.itemView
+                    val itemHeight = itemView.bottom - itemView.top
+                    val isCanceled = dX == 0f && !isCurrentlyActive
+
+                    if (isCanceled) {
+                        clearCanvas(
+                            c,
+                            itemView.right + dX,
+                            itemView.top.toFloat(),
+                            itemView.right.toFloat(),
+                            itemView.bottom.toFloat()
+                        )
+                        super.onChildDraw(
+                            c,
+                            recyclerView,
+                            viewHolder,
+                            dX,
+                            dY,
+                            actionState,
+                            isCurrentlyActive
+                        )
+                        return
+                    }
+
+                    // Draw the red delete background
+                    background.color = backgroundColor
+                    background.setBounds(
+                        itemView.right + dX.toInt(),
+                        itemView.top,
+                        itemView.right,
+                        itemView.bottom
+                    )
+                    background.draw(c)
+
+                    // Calculate position of delete icon
+                    val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight) / 2
+                    val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
+                    val deleteIconLeft = itemView.right - deleteIconMargin - intrinsicWidth
+                    val deleteIconRight = itemView.right - deleteIconMargin
+                    val deleteIconBottom = deleteIconTop + intrinsicHeight
+
+                    // Draw the delete icon
+                    deleteIcon.setBounds(
+                        deleteIconLeft,
+                        deleteIconTop,
+                        deleteIconRight,
+                        deleteIconBottom
+                    )
+                    deleteIcon.draw(c)
+
+                    super.onChildDraw(
+                        c,
+                        recyclerView,
+                        viewHolder,
+                        dX,
+                        dY,
+                        actionState,
+                        isCurrentlyActive
+                    )
+
+
+                }
+            }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
 
     }
 
@@ -344,16 +306,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         viewModel.setData(dateStr)
     }
 
-
-//    private fun initRecyclerView() {
-//        recyclerView = binding.recyclerView
-//        recyclerView.setHasFixedSize(true)
-//        // recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-//
-//        val linearLayout = LinearLayoutManager(activity)
-//        recyclerView.layoutManager = linearLayout
-//    }
-//
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -495,7 +447,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         reader.close()
         return stringBuilder.toString()
     }
-
 
 
 }

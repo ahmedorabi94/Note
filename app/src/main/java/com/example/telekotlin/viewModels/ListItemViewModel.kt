@@ -28,7 +28,7 @@ class ListItemViewModel @Inject constructor(private val repo: MainRepository) : 
 
         if (forceUpdate) {
             viewModelScope.launch {
-                Log.e("viewModelData",dateStr.value!!)
+                Log.e("viewModelData", dateStr.value!!)
                 repo.setDate(dateStr.value!!)
 
             }
@@ -114,14 +114,16 @@ class ListItemViewModel @Inject constructor(private val repo: MainRepository) : 
 //    }
 
 
-    fun completeTask(note: Note, completed: Boolean , position : Int) {
+    fun completeTask(note: Note, completed: Boolean, position: Int) {
         viewModelScope.launch {
             if (completed) {
                 repo.completeTask(note)
+            } else {
+                repo.unCompleteTask(note)
             }
         }
 
-      //  _forceUpdate.value = true
+        //  _forceUpdate.value = true
 
         _position.value = position
 
