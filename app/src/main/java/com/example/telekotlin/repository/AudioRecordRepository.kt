@@ -15,7 +15,7 @@ class AudioRecordRepository @Inject constructor(private val noteDao: NoteDao) {
 
 
     fun insertNote(title: String, body: String, fileName: String) {
-        val note = Note(title, body, null, AppUtils.getDate(), fileName,"",false)
+        val note = Note(title, body, null, AppUtils.getDate(), fileName,"","",false)
 
         CoroutineScope(IO).launch {
             noteDao.insert(note)

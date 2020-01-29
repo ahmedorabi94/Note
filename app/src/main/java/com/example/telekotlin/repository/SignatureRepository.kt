@@ -16,7 +16,7 @@ class SignatureRepository @Inject constructor(private val dao: NoteDao) {
 
     fun insertNote(title: String, body: String, signImage: ByteArray?) {
 
-        val note = Note(title, body, signImage,AppUtils.getDate(),null,"",false)
+        val note = Note(title, body, signImage,AppUtils.getDate(),null,"","",false)
 
         CoroutineScope(IO).launch {
             dao.insert(note)

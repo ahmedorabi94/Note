@@ -98,13 +98,13 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/timeImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="48dp"
             android:layout_marginTop="80dp"
             android:background="@null"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_calendar_clock_grey600_48dp"
+            android:src="@drawable/ic_clock_outline_grey600_36dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ed_body" />
 
@@ -121,12 +121,12 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/dateImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="30dp"
             android:background="@null"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_calendar_range_grey600_48dp"
+            android:src="@drawable/ic_calendar_range_grey600_36dp"
             app:layout_constraintStart_toStartOf="@+id/timeImage"
             app:layout_constraintTop_toBottomOf="@+id/timeImage" />
 

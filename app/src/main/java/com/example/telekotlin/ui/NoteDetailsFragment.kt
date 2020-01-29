@@ -38,6 +38,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
     private var isSign: Boolean = false
     private var fileName: String? = null
     private var player: MediaPlayer? = null
+    private var time: String =""
 
     private val customHandler: Handler = Handler()
 
@@ -97,6 +98,8 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
                     binding.edTitle.setText(it.title)
                     binding.edBody.setText(it.body)
+                    binding.tvTime.text = it.time
+                    binding.tvDate.text = it.date
 
                     if (isSign) {
                         val bitmap =
@@ -197,8 +200,8 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
 
     private fun updateTime(myCalendar: Calendar) {
-        val time: String = SimpleDateFormat("HH:mm a", Locale.UK).format(myCalendar.time)
-        binding.tvTime.text = time
+        time = SimpleDateFormat("HH:mm", Locale.UK).format(myCalendar.time)
+        binding.tvTime.text = SimpleDateFormat("HH:mm a", Locale.UK).format(myCalendar.time)
         Log.e("Reminder", time)
     }
 
@@ -249,7 +252,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
     private fun saveNote(title: String, body: String) {
         if (rowId == -1 || this.body != null) {
-            viewModel.insertNewNote(title, body, dateStr)
+            viewModel.insertNewNote(title, body, dateStr,time)
 
         } else {
             viewModel.updateNote(rowId, title, body)

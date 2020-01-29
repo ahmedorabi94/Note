@@ -26,9 +26,9 @@ class DetailRepository @Inject constructor(
     }
 
 
-    fun insertNewNote(title: String, body: String, date: String) {
+    fun insertNewNote(title: String, body: String, date: String , time : String) {
 
-        val note = Note(title, body, null, AppUtils.getDate(), null, date,false)
+        val note = Note(title, body, null, AppUtils.getDate(), null, date,time,false)
         CoroutineScope(IO).launch {
             noteDao.insert(note)
         }

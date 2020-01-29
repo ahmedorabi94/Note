@@ -12,6 +12,7 @@ data class Note constructor(
     val date: String,
     val audioName: String?,
     val dateStr: String,
+    val time : String,
     var checked: Boolean
 
 ) {

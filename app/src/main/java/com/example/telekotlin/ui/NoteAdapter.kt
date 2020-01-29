@@ -12,7 +12,6 @@ import com.example.telekotlin.viewModels.ListItemViewModel
 
 class NoteAdapter(
     private val viewModel: ListItemViewModel,
-    private val callback: NoteCallback,
     private val lifecycleOwner: LifecycleOwner
 ) :
     ListAdapter<Note, NoteAdapter.MyViewHolder>(DiffCallback) {
@@ -31,9 +30,6 @@ class NoteAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.callback = callback
-
-
         return MyViewHolder(binding)
     }
 

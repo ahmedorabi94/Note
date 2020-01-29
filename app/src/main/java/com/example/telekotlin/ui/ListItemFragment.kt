@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentListItemBinding
 import com.example.telekotlin.di.Injectable
-import com.example.telekotlin.repository.data.Note
 import com.example.telekotlin.viewModels.ListItemViewModel
 import com.github.jhonnyx2012.horizontalpicker.DatePickerListener
 import com.github.jhonnyx2012.horizontalpicker.HorizontalPicker
@@ -34,12 +32,8 @@ import javax.inject.Inject
 
 private const val REQUEST_CODE = 100
 
-class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuItemClickListener,
+class ListItemFragment : Fragment(), Injectable,
     DatePickerListener {
-    override fun completeTask(note: Note, isChecked: Boolean, position: Int) {
-
-    }
-
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -82,7 +76,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 
 
             Thread(Runnable {
-                Thread.sleep(100)
+                Thread.sleep(150)
 
                 activity!!.runOnUiThread {
                     noteAdapter.notifyItemChanged(it)
@@ -99,8 +93,6 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
 //                noteAdapter.notifyItemChanged(it)
 //            }
         })
-
-
 
 
         binding.fabBtn.setMenuListener(object : FabSpeedDial.MenuListener {
@@ -124,6 +116,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
                         return true
                     }
                     R.id.attach_item -> {
+                        openFileManager()
                         Log.e("ListFragment", "Attach Item")
                         return true
                     }
@@ -133,11 +126,10 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
                         return true
                     }
                     R.id.reminder_item -> {
-                        val fragmentManager = fragmentManager
+                        val fragmentManager = activity!!.supportFragmentManager
                         val fragment = ReminderDialogFragment()
-                        if (fragmentManager != null) {
-                            fragment.show(fragmentManager, "fragment_reminder")
-                        }
+
+                        fragment.show(fragmentManager, "fragment_reminder")
 
                         return true
                     }
@@ -160,6 +152,24 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         setupDatePicker()
         setupRecyclerView()
 
+        viewModel.openDetailEvent.observe(this.viewLifecycleOwner, Observer {
+
+            it?.let {
+                val arg = Bundle()
+                arg.putInt("row_id", it.id)
+                arg.putString("fileName", it.audioName)
+
+                if (it.signature != null) {
+                    arg.putBoolean("isSign", true)
+                }
+
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_listItemFragment_to_noteDetailsFragment, arg)
+            }
+
+        })
+
+
     }
 
 
@@ -180,7 +190,7 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
         val viewmodel = binding.viewmodel
 
         if (viewmodel != null) {
-            noteAdapter = NoteAdapter(viewmodel, this, this.viewLifecycleOwner)
+            noteAdapter = NoteAdapter(viewmodel, this.viewLifecycleOwner)
             recyclerView.adapter = noteAdapter
 
         }
@@ -327,70 +337,8 @@ class ListItemFragment : Fragment(), Injectable, NoteCallback, PopupMenu.OnMenuI
             }
         }
 
-
-
         return super.onOptionsItemSelected(item)
 
-    }
-
-
-    override fun onNoteClick(note: Note) {
-        Log.e("ListFragment", "${note.title} ${note.id}")
-
-        val arg = Bundle()
-        arg.putInt("row_id", note.id)
-        arg.putString("fileName", note.audioName)
-
-        if (note.signature != null) {
-            arg.putBoolean("isSign", true)
-        }
-
-        Navigation.findNavController(binding.root)
-            .navigate(R.id.action_listItemFragment_to_noteDetailsFragment, arg)
-
-
-    }
-
-    override fun onAudioClick(note: Note) {
-        //  startPlaying(note.audioName!!)
-    }
-
-
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-
-        when (item!!.itemId) {
-            R.id.add_text_popup -> {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_listItemFragment_to_noteDetailsFragment)
-                return true
-            }
-
-            R.id.import_text -> {
-                openFileManager()
-                return true
-            }
-
-            R.id.signatureItem -> {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_listItemFragment_to_signatureFragment)
-                return true
-            }
-
-            R.id.reminderItem -> {
-
-                val fragmentManager = fragmentManager
-                val fragment = ReminderDialogFragment()
-                if (fragmentManager != null) {
-                    fragment.show(fragmentManager, "fragment_reminder")
-                }
-
-                //Navigation.findNavController(binding.root).navigate(R.id.action_listItemFragment_to_reminderDialogFragment)
-                return true
-            }
-
-        }
-
-        return false
     }
 
 

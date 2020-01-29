@@ -23,8 +23,8 @@ class DetailViewModel @Inject constructor(private val repo: DetailRepository) : 
         mId.value = id
     }
 
-    fun insertNewNote(title: String, body: String , date : String ) {
-        repo.insertNewNote(title, body , date)
+    fun insertNewNote(title: String, body: String , date : String , time : String) {
+        repo.insertNewNote(title, body , date , time)
     }
 
     fun updateNote(id: Int, title: String, body: String) {
