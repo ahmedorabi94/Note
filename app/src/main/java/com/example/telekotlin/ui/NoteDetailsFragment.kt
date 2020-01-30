@@ -175,11 +175,11 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
         binding.timeImage.setOnClickListener {
 
-            val calender = Calendar.getInstance()
-            val timeSetLisener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
-                calender.set(Calendar.HOUR_OF_DAY, hour)
-                calender.set(Calendar.MINUTE, minute)
-                updateTime(calender)
+            val myCalendar = Calendar.getInstance()
+            val timeSetLisener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                myCalendar.set(Calendar.HOUR_OF_DAY, hour)
+                myCalendar.set(Calendar.MINUTE, minute)
+                updateTime(myCalendar)
 
             }
 

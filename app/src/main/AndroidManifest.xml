@@ -23,6 +23,13 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name = ".ui.NotifyService"
+            android:enabled = "true"
+            android:exported = "true"
+           >
+        </service>
+
         <receiver
             android:name=".ui.AlarmReceiver"
             android:enabled="false">

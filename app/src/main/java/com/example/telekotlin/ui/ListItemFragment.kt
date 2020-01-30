@@ -397,4 +397,24 @@ class ListItemFragment : Fragment(), Injectable,
     }
 
 
+//    private fun CreateNotification() {
+//        val myIntent = Intent(activity, NotifyService::class.java)
+//        val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val pendingIntent = PendingIntent.getService(activity, 0, myIntent, 0)
+//        val calendar = Calendar.getInstance()
+//        calendar.set(Calendar.SECOND, 0)
+//        calendar.set(Calendar.MINUTE, 0)
+//        calendar.set(Calendar.HOUR, 0)
+//        calendar.set(Calendar.AM_PM, Calendar.AM)
+//        calendar.add(Calendar.DAY_OF_MONTH, 1)
+//
+//        alarmManager.setRepeating(
+//            AlarmManager.RTC_WAKEUP,
+//            calendar.timeInMillis,
+//            1000 * 60 * 60 * 24,
+//            pendingIntent
+//        )
+//    }
+
+
 }
