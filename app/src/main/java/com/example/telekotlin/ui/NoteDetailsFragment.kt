@@ -1,7 +1,11 @@
 package com.example.telekotlin.ui
 
+import android.app.AlarmManager
 import android.app.DatePickerDialog
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -38,7 +42,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
     private var isSign: Boolean = false
     private var fileName: String? = null
     private var player: MediaPlayer? = null
-    private var time: String =""
+    private var time: String = ""
 
     private val customHandler: Handler = Handler()
 
@@ -202,7 +206,34 @@ class NoteDetailsFragment : Fragment(), Injectable {
     private fun updateTime(myCalendar: Calendar) {
         time = SimpleDateFormat("HH:mm", Locale.UK).format(myCalendar.time)
         binding.tvTime.text = SimpleDateFormat("HH:mm a", Locale.UK).format(myCalendar.time)
-        Log.e("Reminder", time)
+
+        val list: List<String> = time.split(":")
+        val hour = list[0]
+        val min = list[1]
+
+        setAlarm(hour.toInt(),min.toInt())
+
+        Log.e("Reminder", "Hour $hour   Min $min")
+    }
+
+    private fun setAlarm(hour: Int, min: Int) {
+        val myIntent =Intent(activity, AlarmReceiver::class.java)
+        val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getBroadcast(activity, 0, myIntent, 0)
+        val calendar = Calendar.getInstance()
+        //   calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MINUTE, min)
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        //    calendar.set(Calendar.AM_PM, Calendar.AM)
+        //    calendar.add(Calendar.DAY_OF_MONTH, 1)
+
+
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
     }
 
     private fun initMediaPlayer(fileName: String) {
@@ -252,7 +283,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
     private fun saveNote(title: String, body: String) {
         if (rowId == -1 || this.body != null) {
-            viewModel.insertNewNote(title, body, dateStr,time)
+            viewModel.insertNewNote(title, body, dateStr, time)
 
         } else {
             viewModel.updateNote(rowId, title, body)
