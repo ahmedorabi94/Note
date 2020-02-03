@@ -312,6 +312,8 @@ class ListItemFragment : Fragment(), Injectable,
                         itemView.right,
                         itemView.bottom
                     )
+
+
                     background.draw(c)
 
                     // Calculate position of delete icon
