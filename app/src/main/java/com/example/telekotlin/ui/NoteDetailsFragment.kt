@@ -219,7 +219,8 @@ class NoteDetailsFragment : Fragment(), Injectable {
     private fun setAlarm(hour: Int, min: Int) {
         val myIntent =Intent(activity, AlarmReceiver::class.java)
         val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val pendingIntent = PendingIntent.getBroadcast(activity, 0, myIntent, 0)
+        val id = System.currentTimeMillis().toInt()
+        val pendingIntent = PendingIntent.getBroadcast(activity, id, myIntent, 0)
         val calendar = Calendar.getInstance()
         //   calendar.set(Calendar.SECOND, 0)
         calendar.set(Calendar.MINUTE, min)

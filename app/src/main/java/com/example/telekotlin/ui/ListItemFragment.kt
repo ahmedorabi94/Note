@@ -16,6 +16,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import com.example.telekotlin.AlarmWorker
 import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentListItemBinding
 import com.example.telekotlin.di.Injectable
@@ -27,6 +32,7 @@ import io.github.yavski.fabspeeddial.FabSpeedDial
 import org.joda.time.DateTime
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.util.*
 import javax.inject.Inject
 
 
@@ -50,6 +56,11 @@ class ListItemFragment : Fragment(), Injectable,
 
     private var dateStr: String = ""
 
+    private lateinit var mRequest: OneTimeWorkRequest
+
+    private lateinit var timeItems: ArrayList<String>
+    //  val item : ArrayList<String>? = null
+
 
     private val clearPaint =
         Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
@@ -70,6 +81,41 @@ class ListItemFragment : Fragment(), Injectable,
 
         activity!!.title = "Notes"
         setHasOptionsMenu(true)
+
+
+        val mWorkManager = WorkManager.getInstance(context!!)
+
+
+
+
+        viewModel.tasks.observe(this.viewLifecycleOwner, Observer { tasks ->
+
+            // val item : ArrayList<String>? = null
+
+//            timeItems = ArrayList()
+//
+//
+//            if (tasks.isNotEmpty()) {
+//
+//                for (task in tasks) {
+//                    timeItems.add(task.time)
+//                }
+//
+//                val timeData: Data = Data.Builder()
+//                    .putStringArray("timeData", timeItems.toTypedArray())
+//                    .build()
+//
+//
+//                mRequest = OneTimeWorkRequestBuilder<AlarmWorker>()
+//                    .setInputData(timeData)
+//                    .build()
+//
+//                mWorkManager.enqueue(mRequest)
+//
+//            }
+
+
+        })
 
 
         viewModel.position.observe(this.viewLifecycleOwner, Observer {
