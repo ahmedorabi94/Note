@@ -16,11 +16,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.telekotlin.AlarmWorker
 import com.example.telekotlin.R
 import com.example.telekotlin.databinding.FragmentListItemBinding
 import com.example.telekotlin.di.Injectable
@@ -79,7 +76,7 @@ class ListItemFragment : Fragment(), Injectable,
         binding.viewmodel = viewModel
         binding.invalidateAll()
 
-        activity!!.title = "Notes"
+        activity!!.title = "To Do List"
         setHasOptionsMenu(true)
 
 
@@ -122,7 +119,7 @@ class ListItemFragment : Fragment(), Injectable,
 
 
             Thread(Runnable {
-                Thread.sleep(150)
+                Thread.sleep(200)
 
                 activity!!.runOnUiThread {
                     noteAdapter.notifyItemChanged(it)
@@ -171,14 +168,7 @@ class ListItemFragment : Fragment(), Injectable,
                             .navigate(R.id.action_listItemFragment_to_audioRecordFragment)
                         return true
                     }
-                    R.id.reminder_item -> {
-                        val fragmentManager = activity!!.supportFragmentManager
-                        val fragment = ReminderDialogFragment()
 
-                        fragment.show(fragmentManager, "fragment_reminder")
-
-                        return true
-                    }
                 }
 
                 return false

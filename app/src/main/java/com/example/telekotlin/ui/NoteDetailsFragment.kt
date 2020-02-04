@@ -86,11 +86,11 @@ class NoteDetailsFragment : Fragment(), Injectable {
             binding.signImage.visibility = View.GONE
         }
 
-        setHasOptionsMenu(true)
 
         if (rowId != -1) {
+            setHasOptionsMenu(true)
 
-            activity!!.title = "Edit Note"
+            activity!!.title = "Edit Task"
 
             viewModel.getNote(rowId)
 
@@ -115,7 +115,7 @@ class NoteDetailsFragment : Fragment(), Injectable {
 
 
         } else {
-            activity!!.title = "Add Note"
+            activity!!.title = "Add Task"
 
 
         }
@@ -211,13 +211,14 @@ class NoteDetailsFragment : Fragment(), Injectable {
         val hour = list[0]
         val min = list[1]
 
-        setAlarm(hour.toInt(),min.toInt())
+        setAlarm(hour.toInt(), min.toInt(), binding.edTitle.text.toString())
 
         Log.e("Reminder", "Hour $hour   Min $min")
     }
 
-    private fun setAlarm(hour: Int, min: Int) {
-        val myIntent =Intent(activity, AlarmReceiver::class.java)
+    private fun setAlarm(hour: Int, min: Int, title: String) {
+        val myIntent = Intent(activity, AlarmReceiver::class.java)
+        myIntent.putExtra("taskTitle", title)
         val alarmManager = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val id = System.currentTimeMillis().toInt()
         val pendingIntent = PendingIntent.getBroadcast(activity, id, myIntent, 0)
@@ -267,12 +268,12 @@ class NoteDetailsFragment : Fragment(), Injectable {
                 return true
             }
 
-            R.id.save_btn -> {
-                saveNote(binding.edTitle.text.toString(), binding.edBody.text.toString())
-                Navigation.findNavController(binding.root).navigateUp()
-
-                return true
-            }
+//            R.id.save_btn -> {
+//                saveNote(binding.edTitle.text.toString(), binding.edBody.text.toString())
+//                Navigation.findNavController(binding.root).navigateUp()
+//
+//                return true
+//            }
         }
 
 

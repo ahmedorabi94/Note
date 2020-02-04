@@ -16,13 +16,18 @@ private const val NOTIFICATION_CHANNEL_ID: String = "10001"
 
 class AlarmReceiver : BroadcastReceiver() {
 
+    private var title: String = ""
+
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        showNotification(context)
+        title = intent!!.extras!!.getString("taskTitle")!!
+        showNotification(context ,title)
+
+
     }
 
 
-    private fun showNotification(context: Context?) {
+    private fun showNotification(context: Context? , title: String) {
 
         val notificationIntent = Intent(context, MainActivity::class.java)
 
@@ -39,9 +44,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val mBuilder =
             NotificationCompat.Builder(context, default_notification_channel_id)
-        mBuilder.setContentTitle("My Notification")
+        mBuilder.setContentTitle("To Do Now")
         mBuilder.setContentIntent(pendingIntent)
-        mBuilder.setContentText("Notification Listener Service Example")
+        mBuilder.setContentText(title)
         mBuilder.setSmallIcon(R.drawable.ic_alarm_grey600_18dp)
         mBuilder.setAutoCancel(true)
 

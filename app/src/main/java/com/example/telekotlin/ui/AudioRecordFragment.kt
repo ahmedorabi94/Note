@@ -229,24 +229,24 @@ class AudioRecordFragment : Fragment(), Injectable {
 //                Navigation.findNavController(binding.root).navigateUp()
                 return true
             }
-
-            R.id.save_btn -> {
-
-                if (fileName != null) {
-                    viewModel.insertNote(
-                        binding.edTitle.text.toString(),
-                        binding.edBody.text.toString(),
-                        fileName!!
-                    )
-                    Navigation.findNavController(binding.root).navigateUp()
-
-                } else {
-                    Toast.makeText(activity, "Please Record Audio First", Toast.LENGTH_SHORT).show()
-                }
-
-
-                return true
-            }
+//
+//            R.id.save_btn -> {
+//
+//                if (fileName != null) {
+//                    viewModel.insertNote(
+//                        binding.edTitle.text.toString(),
+//                        binding.edBody.text.toString(),
+//                        fileName!!
+//                    )
+//                    Navigation.findNavController(binding.root).navigateUp()
+//
+//                } else {
+//                    Toast.makeText(activity, "Please Record Audio First", Toast.LENGTH_SHORT).show()
+//                }
+//
+//
+//                return true
+//            }
         }
 
 

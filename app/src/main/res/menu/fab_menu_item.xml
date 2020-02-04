@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/reminder_item"
-        android:icon="@drawable/ic_alarm_grey600_36dp"
-        android:title="Reminder" />
 
     <item
         android:id="@+id/audio_item"
@@ -25,6 +21,6 @@
     <item
         android:id="@+id/text_note_item"
         android:icon="@drawable/ic_note_text_grey600_36dp"
-        android:title="Text Note" />
+        android:title="New Task" />
 
 </menu>

@@ -19,15 +19,6 @@ class NoteApp : Application(), HasActivityInjector {
         super.onCreate()
         AppInjector.init(this)
 
-
-
-
-        val constraints = Constraints.Builder()
-            .setRequiresDeviceIdle(true)
-            .setRequiresCharging(true)
-            .build()
-
-
     }
 
     override fun activityInjector() = dispatchingAndroidInjector

@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Notes</string>
+    <string name="app_name">TO Do List</string>
 
     <string name="action_settings">Insert Dummy Data</string>
-    <string name="add_title">Add title</string>
+    <string name="add_title">What to do</string>
     <string name="add_some_text_here">Add Some Text Here</string>
     <string name="delete_all_texts">Delete All Texts</string>
     <string name="delete">Delete</string>
@@ -35,4 +35,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="signature">Signature</string>
     <string name="reminder">Reminder</string>
+    <string name="what_to_do">What to do</string>
+    <string name="write_description">Write description</string>
 </resources>
